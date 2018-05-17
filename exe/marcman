@@ -1,6 +1,18 @@
 #!/usr/bin/env ruby
 
+require "launchy"
 require "marcman"
+
+
+options = {:browser => false}
+OptionParser.new do |opts|
+  opts.banner = "Usage: marcman [CODE] [options]"
+
+  
+  opts.on("-b", "--[no-]browse", "Open in brwoser") do |b|
+    options[:browser] = b
+  end
+end.parse!
 
 code = ARGV.first.upcase
 unless code =~ /[0-9X]{3}/
@@ -17,3 +29,8 @@ if field.nil?
 end
 
 puts "%s: %s" % [code, field]
+if options[:browser]
+  Launchy.open(
+    "https://www.loc.gov/marc/bibliographic/bd%s.html" % code.downcase
+  )
+end
