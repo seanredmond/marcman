@@ -70,5 +70,15 @@ module Marcman
     "245" => "Title Statement (NR)",
     "246" => "Varying Form of Title (R)",
     "247" => "Former Title (R)",
+    "250" => "Edition Statement (R)",
+    "254" => "Musical Presentation Statement (NR)",
+    "255" => "Cartographic Mathematical Data (R)",
+    "256" => "Computer File Characteristics (NR)",
+    "257" => "Country of Producing Entity (R)",
+    "258" => "Philatelic Issue Data (R)",
+    "260" => "Publication, Distribution, etc. (Imprint) (R)",
+    "263" => "Projected Publication Date (NR)",
+    "264" => "Production, Publication, Distribution, Manufacture, and Copyright Notice (R)",
+    "270" => "Address (R)",
   }
 end
