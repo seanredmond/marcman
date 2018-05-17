@@ -28,7 +28,9 @@ if field.nil?
   exit 0
 end
 
-puts "%s: %s" % [code, field]
+desc, repeat = field
+
+puts "%s: %s (%srepeatable)" % [code, desc, repeat ? "" : "non-"]
 if options[:browser]
   Launchy.open(
     "https://www.loc.gov/marc/bibliographic/bd%s.html" % code.downcase
