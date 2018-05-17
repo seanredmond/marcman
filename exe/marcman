@@ -8,8 +8,7 @@ options = {:browser => false}
 OptionParser.new do |opts|
   opts.banner = "Usage: marcman [CODE] [options]"
 
-  
-  opts.on("-b", "--[no-]browse", "Open in brwoser") do |b|
+  opts.on("-b", "--[no-]browse", "Open in browser") do |b|
     options[:browser] = b
   end
 end.parse!
