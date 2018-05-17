@@ -62,5 +62,13 @@ module Marcman
     "110" => "Main Entry - Corporate Name (NR)",
     "111" => "Main Entry - Meeting Name (NR)",
     "130" => "Main Entry - Uniform Title (NR)",
+    "210" => "Abbreviated Title (R)",
+    "222" => "Key Title (R)",
+    "240" => "Uniform Title (NR)",
+    "242" => "Translation of Title by Cataloging Agency (R)",
+    "243" => "Collective Uniform Title (NR)",
+    "245" => "Title Statement (NR)",
+    "246" => "Varying Form of Title (R)",
+    "247" => "Former Title (R)",
   }
 end
