@@ -257,7 +257,242 @@ module Marcman
        :values => {"#" => "Library and Archives Canada",
                    "7" => "Source specified in subfield $2"},
       },
-      :undefined]
+      :undefined],
+    "017" => [
+      :undefined,
+      {:definition => "Display constant controller",
+       :values => {"#" => "Copyright or legal deposit number",
+                   "8" => "No display constant generated"},
+      }],
+    "018" => [:undefined, :undefined],
+    "020" => [:undefined, :undefined],
+    "022" => [
+      {:definition => "Level of international interest",
+       :values => {"#" => "No level specified",
+                   "1" => "Continuing resource of international interest",
+                   "2" => "Continuing resource not of international interest"},
+      },
+      :undefined],
+    "024" => [
+      {:definition => "Type of standard number or code",
+       :values => {"0" => "International Standard Recording Code",
+                   "1" => "Universal Product Code",
+                   "2" => "International Standard Music Number",
+                   "3" => "International Article Number",
+                   "4" => "Serial Item and Contribution Identifier",
+                   "7" => "Source specified in subfield $2",
+                   "8" => "Unspecified type of standard number or code"}
+      },
+      {:definition => "Difference indicator",
+       :values => {"#" => "No information provided",
+                   "0" => "No difference",
+                   "1" => "Difference"}
+      }],
+    "025" => [:undefined, :undefined],
+    "026" => [:undefined, :undefined],
+    "027" => [:undefined, :undefined],
+    "028" => [
+      {:definition => "Type of number",
+       :values => {"0" => "Issue number",
+                   "1" => "Matrix number",
+                   "2" => "Plate number",
+                   "3" => "Other music publisher number",
+                   "4" => "Video recording publisher number",
+                   "5" => "Other publisher number",
+                   "6" => "Distributor number"}
+      },
+      {:definition => "Note/added entry controller",
+       :values => {"0" => "No note, no added entry",
+                   "1" => "Note, added entry",
+                   "2" => "Note, no added entry",
+                   "3" => "No note, added entry"}
+      }],
+    "030" => [:undefined, :undefined],
+    "031" => [:undefined, :undefined],
+    "032" => [:undefined, :undefined],
+    "033" => [
+      {:definition => "Type of date in subfield $a",
+       :values => {"#" => "No date information",
+                   "0" => "Single date",
+                   "1" => "Multiple single dates",
+                   "2" => "Range of dates"}
+      },
+      {:definition => "Type of event",
+       :values => {"#" => "No information provided",
+                   "0" => "Capture",
+                   "1" => "Broadcast",
+                   "2" => "Finding"}
+      },
+    ],
+    "034" => [
+      {:definition => "Type of scale",
+       :values => {"0" => "Scale indeterminable/No scale recorded",
+                   "1" => "Single scale",
+                   "3" => "Range of scales"}
+      },
+      {:definition => "Type of ring",
+       :values => {"#" => "Not applicable",
+                   "0" => "Outer ring",
+                   "1" => "Exclusion ring"}
+      }
+    ],
+    "035" => [:undefined, :undefined],
+    "036" => [:undefined, :undefined],
+    "037" => [
+      {:definition => "Source of acquisition sequence",
+       :values => {"#" => "Not applicable/No information provided/Earliest",
+                   "2" => "Intervening",
+                   "3" => "Current/Latest"}
+      },
+      :undefined
+    ],
+    "038" => [:undefined, :undefined],
+    "040" => [:undefined, :undefined],
+    "041" => [
+      {:definition => "Translation indication",
+       :values => {"#" => "No information provided",
+                   "0" =>
+                   "Item not a translation/does not include a translation",
+                   "1" => "Item is or includes a translation"}
+      },
+      {:definition => "Source of code",
+       :values => {"#" => "MARC language code",
+                   "7" => "Source specified in subfield $2"}
+      }
+    ],
+    "042" => [:undefined, :undefined],
+    "043" => [:undefined, :undefined],
+    "044" => [:undefined, :undefined],
+    "045" => [
+      {:definition => "Type of time period in subfield $b or $c",
+       :values => {"#" => "Subfield $b or $c not present",
+                   "0" => "Single date/time",
+                   "1" => "Multiple single dates/times",
+                   "2" => "Range of dates/times"}
+      },
+      :undefined
+    ],
+    "046" => [:undefined, :undefined],
+    "047" => [
+      :undefined,
+      {:description => "Source of code",
+       :values => {"#" => "MARC musical composition code",
+                   "7" => "Source specified in subfield $2"}
+      }
+    ],
+    "048" => [
+      :undefined,
+      {:description => "Source of code",
+       :values => {"#" => "MARC code",
+                   "7" => "Source specified in subfield $2"}
+      }
+    ],
+    "050" => [
+      {:description => "Existence in LC collection",
+       :values => {"#" => "No information provided",
+                   "0" => "Item is in LC",
+                   "1" => "Item is not in LC"}
+      },
+      {:description => "Source of call number",
+       :values => {"0" => "Assigned by LC",
+                   "4" => "Assigned by agency other than LC"}
+      }
+    ],
+    "051" => [:undefined, :undefined],
+    "052" => [
+      {:description => "Code source",
+       :values => {"#" => "Library of Congress Classification",
+                   "1" => "U.S. Dept. of Defense Classification",
+                   "7" => "Source specified in subfield $2"}
+      },
+      :undefined
+    ],
+    "055" => [
+      {:description => "Existence in LAC collection",
+       :values => {"#" => "Information not provided",
+                   "0" => "Work held by LAC",
+                   "1" => "Work not held by LAC"}
+      },
+      {:description => "Type, completeness, source of class/call number",
+       :values => {"0" => "LC-based call number assigned by LAC",
+                   "1" => "Complete LC class number assigned by LAC",
+                   "2" => "Incomplete LC class number assigned by LAC",
+                   "3" => "LC-based call number assigned by the contributing library",
+                   "4" => "Complete LC class number assigned by the contributing library",
+                   "5" => "Incomplete LC class number assigned by the contributing library",
+                   "6" => "Other call number assigned by LAC",
+                   "7" => "Other class number assigned by LAC",
+                   "8" => "Other call number assigned by the contributing library",
+                   "9" => "Other class number assigned by the contributing library"}
+      }
+    ],
+    "060" => [
+      {:description => "Existence in NLM collection",
+       :values => {"#" => "Information not provided",
+                   "0" => "Item is in NLM",
+                   "1" => "Item is not in NLM"}
+      },
+      {:description => "Source of call number",
+       :values => {"0" => "Assigned by NLM",
+                   "4" => "Assigned by agency other than NLM"}
+      }
+    ],
+    "061" => [:undefined, :undefined],
+    "066" => [:undefined, :undefined],
+    "070" => [
+      {:description => "Existence in NAL collection",
+       :values => {"#" => "Information not provided",
+                   "0" => "Item is in NAL",
+                   "1" => "Item is not in NAL"}
+      },
+      :undefined],
+    "071" => [:undefined, :undefined],
+    "072" => [
+      :undefined,
+      {:description => "Code source",
+       :values => {"0" => "NAL subject category code list",
+                   "7" => "Source specified in subfield $2"}
+      }
+    ],
+    "074" => [:undefined, :undefined],
+    "080" => [
+      {:definition => "Type of edition",
+       :values => {"#" => "No information provided",
+                   "0" => "Full",
+                   "1" => "Abridged"}
+      },
+      :undefined],
+    "082" => [
+      {:definition => "Type of edition",
+       :values => {"0" => "Full edition",
+                   "1" => "Abridged edition",
+                   "7" => "Other edition specified in subfield $2"}
+      },
+      {:description => "Source of classification number",
+       :values => {"0" => "Assigned by LC",
+                   "4" => "Assigned by agency other than LC"}
+      }
+    ],
+    "083" => [
+      {:definition => "Type of edition",
+       :values => {"0" => "Full edition",
+                   "1" => "Abridged edition",
+                   "7" => "Other edition specified in subfield $2"}
+      },
+      :undefined],
+    "084" => [:undefined, :undefined],
+    "085" => [:undefined, :undefined],
+    "086" => [
+      {:definition => "Number source",
+       :values => {
+         "#" => "Source specified in subfield $2",
+         "0" => "Superintendent of Documents Classification System",
+         "1" => "Government of Canada Publications: Outline of Classification"}
+      },
+      :undefined
+    ],
+    "088" => [:undefined, :undefined],
+    "09X" => [:undefined, :undefined],
   }
 
   def self.formatIndicators(code, ind)
