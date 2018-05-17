@@ -208,5 +208,9 @@ module Marcman
     "785" => "Succeeding Entry (R)",
     "786" => "Data Source Entry (R)",
     "787" => "Other Relationship Entry (R)",
+    "800" => "Series Added Entry - Personal Name (R)",
+    "810" => "Series Added Entry - Corporate Name (R)",
+    "811" => "Series Added Entry - Meeting Name (R)",
+    "830" => "Series Added Entry - Uniform Title (R)",
   }
 end
