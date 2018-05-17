@@ -247,4 +247,28 @@ module Marcman
     "886" => ["Foreign MARC Information Field", true],
     "887" => ["Non-MARC Information Field", true],
   }
+
+  INDICATORS = {
+    "010" => [:undefined, :undefined],
+    "013" => [:undefined, :undefined],
+    "015" => [:undefined, :undefined],
+    "016" => [
+      {:definition => "National bibliographic agency",
+       :values => {"#" => "Library and Archives Canada",
+                   "7" => "Source specified in subfield $2"},
+      },
+      :undefined]
+  }
+
+  def self.formatIndicators(code, ind)
+    label = ind == 1 ? "first" : "second"
+    indicator = INDICATORS[code][ind -1]
+    if indicator == :undefined
+      return ["  %s indicator is undefined" % label]
+    end
+
+    return ["  %s indicator: %s" % [label, indicator[:definition]]] +
+           indicator[:values].map{|k, v| "    %s - %s" % [k, v]}
+  end
+    
 end

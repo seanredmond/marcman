@@ -4,13 +4,17 @@ require "launchy"
 require "marcman"
 
 
-options = {:browser => false}
+options = {:browser => false, :indicators => false}
 OptionParser.new do |opts|
   opts.banner = "Usage: marcman [CODE] [options]"
 
   opts.on("-b", "--[no-]browse", "Open in browser") do |b|
     options[:browser] = b
   end
+  opts.on("-i", "--[no-]indicators", "Show definitions of indicators") do |i|
+    options[:indicators] = i
+  end
+
 end.parse!
 
 code = ARGV.first.upcase
@@ -30,6 +34,12 @@ end
 desc, repeat = field
 
 puts "%s: %s (%srepeatable)" % [code, desc, repeat ? "" : "non-"]
+if options[:indicators] and Marcman::INDICATORS[code]
+  (1..2).each do |i|
+    puts Marcman::formatIndicators(code, i).join("\n")
+  end
+end
+
 if options[:browser]
   Launchy.open(
     "https://www.loc.gov/marc/bibliographic/bd%s.html" % code.downcase
