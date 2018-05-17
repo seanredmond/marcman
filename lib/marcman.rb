@@ -182,5 +182,16 @@ module Marcman
     "658" => "Index Term - Curriculum Objective (R)",
     "662" => "Subject Added Entry - Hierarchical Place Name (R)",
     "69X" => "Local Subject Access Fields (R)",
+    "700" => "Added Entry - Personal Name (R)",
+    "710" => "Added Entry - Corporate Name (R)",
+    "711" => "Added Entry - Meeting Name (R)",
+    "720" => "Added Entry - Uncontrolled Name (R)",
+    "730" => "Added Entry - Uniform Title (R)",
+    "740" => "Added Entry - Uncontrolled Related/Analytical Title (R)",
+    "751" => "Added Entry - Geographic Name (R)",
+    "752" => "Added Entry - Hierarchical Place Name (R)",
+    "753" => "System Details Access to Computer Files (R)",
+    "754" => "Added Entry - Taxonomic Identification (R)",
+    "758" => "Resource Identifier (R)",
   }
 end
