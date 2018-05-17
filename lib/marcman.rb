@@ -58,5 +58,9 @@ module Marcman
     "086" => "Government Document Classification Number (R)",
     "088" => "Report Number (R)",
     "09X" => "Local Call Numbers",
+    "100" => "Main Entry - Personal Name (NR)",
+    "110" => "Main Entry - Corporate Name (NR)",
+    "111" => "Main Entry - Meeting Name (NR)",
+    "130" => "Main Entry - Uniform Title (NR)",
   }
 end
