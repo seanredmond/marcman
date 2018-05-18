@@ -4,15 +4,20 @@ require "launchy"
 require "marcman"
 
 
-options = {:browser => false, :indicators => false}
+options = {:browser => false, :indicators => false, :subfields => false}
 OptionParser.new do |opts|
   opts.banner = "Usage: marcman [CODE] [options]"
 
   opts.on("-b", "--[no-]browse", "Open in browser") do |b|
     options[:browser] = b
   end
+
   opts.on("-i", "--[no-]indicators", "Show definitions of indicators") do |i|
     options[:indicators] = i
+  end
+
+  opts.on("-s", "--[no-]subfields", "Show subfield definitions") do |s|
+    options[:subfields] = s
   end
 
 end.parse!
@@ -38,6 +43,11 @@ if options[:indicators] and Marcman::CODES[code][:indicators]
   (1..2).each do |i|
     puts Marcman::formatIndicators(code, i).join("\n")
   end
+end
+
+if options[:subfields] and Marcman::CODES[code][:subfields]
+  puts "  Subfields:"
+  puts Marcman::formatSubfields(code).join("\n")
 end
 
 if options[:browser]

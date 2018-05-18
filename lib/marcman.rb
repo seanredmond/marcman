@@ -3642,5 +3642,9 @@ module Marcman
     return ["  %s indicator: %s" % [label, indicator[:definition]]] +
            indicator[:values].map{|k, v| "    %s - %s" % [k, v]}
   end
+
+  def self.formatSubfields(code)
+    return CODES[code][:subfields].map{|k, v| "    %s - %s (%s)" % [k, v[:definition], v[:repeat] == true ? "repeatable" : "non-repeatable"]}
+  end
     
 end
