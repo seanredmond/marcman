@@ -24,17 +24,17 @@ unless code =~ /[0-9X]{3}/
   exit 1
 end
 
-field = Marcman::MARC[code]
+field = Marcman::CODES[code]
 
 if field.nil?
   puts "No MARC field with the code %s" % code
   exit 0
 end
 
-desc, repeat = field
+#desc, repeat = field
 
-puts "%s: %s (%srepeatable)" % [code, desc, repeat ? "" : "non-"]
-if options[:indicators] and Marcman::INDICATORS[code]
+puts "%s: %s (%srepeatable)" % [code, field[:definition], field[:repeat] ? "" : "non-"]
+if options[:indicators] and Marcman::CODES[code][:indicators]
   (1..2).each do |i|
     puts Marcman::formatIndicators(code, i).join("\n")
   end
