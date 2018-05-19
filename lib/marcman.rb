@@ -962,7 +962,7 @@ module Marcman
    :repeat=>false,
    :indicators=>
     [{:definition=>"Nonfiling characters",
-      :values=>{"9"=>"Number of nonfiling characters"}},
+      :values=>{"0-9"=>"Number of nonfiling characters"}},
      :undefined],
    :subfields=>
     {"$a"=>{:definition=>"Uniform title", :repeat=>false},
