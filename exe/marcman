@@ -38,7 +38,7 @@ end
 
 #desc, repeat = field
 
-puts "%s: %s (%srepeatable)" % [code, field[:definition], field[:repeat] ? "" : "non-"]
+puts "%s: %s%s" % [code, field[:definition], Marcman::formatRepeat(field[:repeat])]
 if options[:indicators] and Marcman::CODES[code][:indicators]
   (1..2).each do |i|
     puts Marcman::formatIndicators(code, i).join("\n")
