@@ -472,9 +472,16 @@ module Marcman
   {:definition=>"Time Period of Content",
    :repeat=>false,
    :indicators=>
-    [{:definition=>"Type of time period in subfield $b or $c", :values=>{}},
+   [{:definition=>"Type of time period in subfield $b or $c",
+     :values=>{"0"=>"Single date/time",
+               "1"=>"Multiple single dates/times",
+               "2"=>"Range of dates/times"}},
      :undefined],
-   :subfields=>nil,
+   :subfields=>{
+     "$a"=>{:definition=>"Time period code", :repeat=>true},
+     "$b"=>{:definition=>"Formatted 9999 B.C. through C.E. time period",
+            :repeat=>true},
+     "$c"=>{:definition=>"Formatted pre-9999 B.C. time period", :repeat=>true}},
    :group=>"01X-09X"},
  "046"=>
   {:definition=>"Special Coded Dates",
@@ -501,14 +508,27 @@ module Marcman
  "047"=>
   {:definition=>"Form of Musical Composition Code",
    :repeat=>true,
-   :indicators=>[:undefined, {:definition=>"Source of code", :values=>{}}],
-   :subfields=>nil,
+   :indicators=>[:undefined,
+                 {:definition=>"Source of code",
+                  :values=>{"#"=>"MARC musical composition code",
+                            "7"=>"Source specified in subfield $2"}}],
+   :subfields=>{
+     "$a"=>{:definition=>"Form of musical composition code", :repeat=>true},
+     "$2"=>{:definition=>"Source of code", :repeat=>false}},
+   :linkage=>false,
    :group=>"01X-09X"},
  "048"=>
   {:definition=>"Number of Musical Instruments or Voices Code",
    :repeat=>true,
-   :indicators=>[:undefined, {:definition=>"Source of code", :values=>{}}],
-   :subfields=>nil,
+   :indicators=>[:undefined, {
+                   :definition=>"Source of code",
+                   :values=>{"#"=>"MARC code",
+                             "7"=>"Source specified in subfield $2"}}],
+   :subfields=>{
+     "$a"=>{:definition=>"Performer or ensemble", :repeat=>true},
+     "$b"=>{:definition=>"Soloist", :repeat=>true},
+     "$2"=>{:definition=>"Source of code", :repeat=>false}},
+   :linkage=>false,
    :group=>"01X-09X"},
  "050"=>
   {:definition=>"Library of Congress Call Number",
@@ -536,7 +556,11 @@ module Marcman
   {:definition=>"Library of Congress Copy, Issue, Offprint Statement",
    :repeat=>true,
    :indicators=>[:undefined, :undefined],
-   :subfields=>nil,
+   :subfields=>{
+     "$a"=>{:definition=>"Classification number", :repeat=>false},
+     "$b"=>{:definition=>"Item number", :repeat=>false},
+     "$c"=>{:definition=>"Copy information", :repeat=>false}},
+   :linkage=>false,
    :group=>"01X-09X"},
  "052"=>
   {:definition=>"Geographic Classification",
@@ -611,18 +635,29 @@ module Marcman
       {:definition=>"Authority record control number or standard number",
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true}},
+   :linkage=>false,
    :group=>"01X-09X"},
  "061"=>
   {:definition=>"National Library of Medicine Copy Statement",
    :repeat=>true,
    :indicators=>[:undefined, :undefined],
-   :subfields=>nil,
+   :subfields=>{
+     "$a"=>{:definition=>"Classification number", :repeat=>true},
+     "$b"=>{:definition=>"Item number", :repeat=>false},
+     "$c"=>{:definition=>"Copy information", :repeat=>false}},
+   :linkage => false,
    :group=>"01X-09X"},
  "066"=>
   {:definition=>"Character Sets Present",
    :repeat=>false,
    :indicators=>[:undefined, :undefined],
-   :subfields=>nil,
+   :subfields=>{
+     "$a"=>{:definition=>"Primary G0 character set (NR)", :repeat=>false},
+     "$b"=>{:definition=>"Primary G1 character set (NR)", :repeat=>false},
+     "$c"=>{:definition=>"Alternate G0 or G1 character set (R)",
+            :repeat=>true}},
+   :linkage=>false,
+   :fieldlink=>false,
    :group=>"01X-09X"},
  "070"=>
   {:definition=>"National Agricultural Library Call Number",
@@ -641,24 +676,38 @@ module Marcman
       {:definition=>"Authority record control number or standard number",
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true}},
+   :linkage=>false,
    :group=>"01X-09X"},
  "071"=>
   {:definition=>"National Agricultural Library Copy Statement",
    :repeat=>true,
    :indicators=>[:undefined, :undefined],
-   :subfields=>nil,
+   :subfields=>{
+     "$a"=>{:definition=>"Classification number", :repeat=>true},
+     "$b"=>{:definition=>"Item number", :repeat=>false},
+     "$c"=>{:definition=>"Copy information", :repeat=>true}},
+   :linkage=>false,
    :group=>"01X-09X"},
  "072"=>
   {:definition=>"Subject Category Code",
    :repeat=>true,
-   :indicators=>[:undefined, {:definition=>"Code source", :values=>{}}],
-   :subfields=>nil,
+   :indicators=>[:undefined,
+                 {:definition=>"Code source",
+                  :values=>{"0"=>"NAL subject category code list",
+                            "7"=>"Source specified in subfield $2"}}],
+   :subfields=>{
+     "$a"=>{:definition=>"Subject category code", :repeat=>false},
+     "$x"=>{:definition=>"Subject category code subdivision", :repeat=>true},
+     "$2"=>{:definition=>"Source", :repeat=>false}},
    :group=>"01X-09X"},
  "074"=>
   {:definition=>"GPO Item Number",
    :repeat=>true,
    :indicators=>[:undefined, :undefined],
-   :subfields=>nil,
+   :subfields=>{
+     "$a"=>{:definition=>"GPO item number", :repeat=>false},
+     "$z"=>{:definition=>"Canceled/invalid GPO item number", :repeat=>true}},
+   :linkage=>false,
    :group=>"01X-09X"},
  "080"=>
   {:definition=>"Universal Decimal Classification Number",
@@ -712,6 +761,9 @@ module Marcman
        :repeat=>true},
      "$m"=>{:definition=>"Standard or optional designation", :repeat=>false},
      "$q"=>{:definition=>"Assigning agency", :repeat=>false},
+     "$y"=>{
+       :definition=>"Table sequence number for internal subarrangement or add table",
+       :repeat=>true},
      "$z"=>{:definition=>"Table identification", :repeat=>true},
      "$2"=>{:definition=>"Edition number", :repeat=>false}},
    :linkage=>true,
@@ -735,18 +787,36 @@ module Marcman
   {:definition=>"Synthesized Classification Number Components",
    :repeat=>true,
    :indicators=>[:undefined, :undefined],
-   :subfields=>
-    {"$b"=>{:definition=>"Base number", :repeat=>true},
-     "$c"=>
-      {:definition=>"Classification number-ending number of span",
+   :subfields=>{
+     "$a"=>{
+       :definition=>"Number where instructions are found-single number or beginning number of span",
        :repeat=>true},
+     "$b"=>{:definition=>"Base number", :repeat=>true},
+     "$c"=>
+     {:definition=>"Classification number-ending number of span",
+      :repeat=>true},
      "$f"=>{:definition=>"Facet designator", :repeat=>true},
      "$r"=>{:definition=>"Root number", :repeat=>true},
+     "$s"=>{
+       :definition=>"Digits added from classification number in schedule or external table",
+       :repeat=>true},
+     "$t"=>{
+       :definition=>"Digits added from internal subarrangement or add table",
+       :repeat=>true},
      "$u"=>{:definition=>"Number being analyzed", :repeat=>true},
+     "$v"=>{
+       :definition=>"Number in internal subarrangement or add table where instructions are found",
+       :repeat=>true},
+     "$w"=>{
+       :definition=>"Table identification-Internal subarrangement or add table",
+       :repeat=>true},
+     "$y"=>{
+       :definition=>"Table sequence number for internal subarrangement or add table",
+       :repeat=>true},
      "$z"=>{:definition=>"Table identification", :repeat=>true},
      "$0"=>
-      {:definition=>"Authority record control number or standard number",
-       :repeat=>true},
+     {:definition=>"Authority record control number or standard number",
+      :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true}},
    :linkage=>true,
    :group=>"01X-09X"},
