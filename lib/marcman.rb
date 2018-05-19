@@ -1,7 +1,11 @@
 # coding: utf-8
 require "marcman/version"
+require "pp"
 
 module Marcman
+  LINKAGE = {"$6"=>{:definition=>"Linkage", :repeat=>false}}
+  FIELDLINK = {"$8"=>{:definition=>"Field link and sequence number", :repeat=>"true"}}
+
   CODES = {"001"=>
   {:definition=>"Control Number",
    :repeat=>false,
@@ -52,8 +56,7 @@ module Marcman
    :subfields=>{
      "$a"=>{:definition=>"LC control number", :repeat=>false},
      "$b"=>{:definition=>"NUCMC control number", :repeat=>true},
-     "$z"=>{:definition=>"Canceled/invalid LC control number", :repeat=>true},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$z"=>{:definition=>"Canceled/invalid LC control number", :repeat=>true}},
    :group=>"01X-09X"},
  "013"=>
   {:definition=>"Patent Control Information",
@@ -65,9 +68,8 @@ module Marcman
      "$c"=>{:definition=>"Type of number", :repeat=>false},
      "$d"=>{:definition=>"Date", :repeat=>true},
      "$e"=>{:definition=>"Status", :repeat=>true},
-     "$f"=>{:definition=>"Party to document", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$f"=>{:definition=>"Party to document", :repeat=>true}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "015"=>
   {:definition=>"National Bibliography Number",
@@ -80,8 +82,7 @@ module Marcman
       {:definition=>"Canceled/invalid national bibliography number",
        :repeat=>true},
      "$2"=>{:definition=>"Source", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$6"=>{:definition=>"Linkage", :repeat=>false}},
    :group=>"01X-09X"},
  "016"=>
   {:definition=>"National Bibliographic Agency Control Number",
@@ -94,8 +95,7 @@ module Marcman
    :subfields=>{
      "$a"=>{:definition=>"Record control number", :repeat=>false},
      "$z"=>{:definition=>"Canceled/invalid control number", :repeat=>true},
-     "$2"=>{:definition=>"Source", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$2"=>{:definition=>"Source", :repeat=>false}},
    :group=>"01X-09X"},
  "017"=>
   {:definition=>"Copyright or Legal Deposit Number",
@@ -113,18 +113,16 @@ module Marcman
      "$z"=>{
        :definition=>"Canceled/invalid copyright or legal deposit number",
        :repeat=>true},
-     "$2"=>{:definition=>"Source", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$2"=>{:definition=>"Source", :repeat=>false}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "018"=>
   {:definition=>"Copyright Article-Fee Code",
    :repeat=>false,
    :indicators=>[:undefined, :undefined],
    :subfields=>{
-     "$a"=>{:definition=>"Copyright article-fee code", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$a"=>{:definition=>"Copyright article-fee code", :repeat=>false}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "020"=>
   {:definition=>"International Standard Book Number",
@@ -134,9 +132,8 @@ module Marcman
      "$a"=>{:definition=>"International Standard Book Number", :repeat=>false},
      "$c"=>{:definition=>"Terms of availability", :repeat=>false},
      "$q"=>{:definition=>"Qualifying information", :repeat=>true},
-     "$z"=>{:definition=>"Canceled/invalid ISBN", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$z"=>{:definition=>"Canceled/invalid ISBN", :repeat=>true}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "022"=>
   {:definition=>"International Standard Serial Number",
@@ -154,9 +151,8 @@ module Marcman
      "$m"=>{:definition=>"Canceled ISSN-L", :repeat=>true},
      "$y"=>{:definition=>"Incorrect ISSN", :repeat=>true},
      "$z"=>{:definition=>"Canceled ISSN", :repeat=>true},
-     "$2"=>{:definition=>"Source", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$2"=>{:definition=>"Source", :repeat=>false}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "024"=>
   {:definition=>"Other Standard Identifier",
@@ -185,17 +181,15 @@ module Marcman
      "$q"=>{:definition=>"Qualifying information", :repeat=>true},
      "$z"=>
       {:definition=>"Canceled/invalid standard number or code", :repeat=>true},
-     "$2"=>{:definition=>"Source of number or code", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$2"=>{:definition=>"Source of number or code", :repeat=>false}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "025"=>
   {:definition=>"Overseas Acquisition Number",
    :repeat=>true,
    :indicators=>[:undefined, :undefined],
    :subfields=>{
-     "$a"=>{:definition=>"Overseas acquisition number", :repeat=>true},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$a"=>{:definition=>"Overseas acquisition number", :repeat=>true}},
    :group=>"01X-09X"},
  "026"=>
   {:definition=>"Fingerprint Identifier",
@@ -210,9 +204,8 @@ module Marcman
      "$d"=>{:definition=>"Number of volume or part", :repeat=>true},
      "$e"=>{:definition=>"Unparsed fingerprint", :repeat=>false},
      "$2"=>{:definition=>"Source", :repeat=>false},
-     "$5"=>{:definition=>"Institution to which field applies", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$5"=>{:definition=>"Institution to which field applies", :repeat=>true}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "027"=>
   {:definition=>"Standard Technical Report Number",
@@ -221,9 +214,8 @@ module Marcman
    :subfields=>
     {"$a"=>{:definition=>"Standard technical report number", :repeat=>false},
      "$q"=>{:definition=>"Qualifying information", :repeat=>true},
-     "$z"=>{:definition=>"Canceled/invalid number", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$z"=>{:definition=>"Canceled/invalid number", :repeat=>true}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "028"=>
   {:definition=>"Publisher or Distributor Number",
@@ -247,9 +239,8 @@ module Marcman
    :subfields=>
     {"$a"=>{:definition=>"Publisher or distributor number", :repeat=>false},
      "$b"=>{:definition=>"Source", :repeat=>false},
-     "$q"=>{:definition=>"Qualifying information", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$q"=>{:definition=>"Qualifying information", :repeat=>true}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "030"=>
   {:definition=>"CODEN Designation",
@@ -257,9 +248,8 @@ module Marcman
    :indicators=>[:undefined, :undefined],
    :subfields=>{
      "$a"=>{:definition=>"CODEN", :repeat=>false},
-     "$z"=>{:definition=>"Canceled/invalid CODEN", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$z"=>{:definition=>"Canceled/invalid CODEN", :repeat=>true}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "031"=>
   {:definition=>"Musical Incipits Information",
@@ -283,9 +273,8 @@ module Marcman
      "$u"=>{:definition=>"Uniform Resource Identifier", :repeat=>true},
      "$y"=>{:definition=>"Link text", :repeat=>true},
      "$z"=>{:definition=>"Public note", :repeat=>true},
-     "$2"=>{:definition=>"System code", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$2"=>{:definition=>"System code", :repeat=>false}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "032"=>
   {:definition=>"Postal Registration Number",
@@ -293,9 +282,8 @@ module Marcman
    :indicators=>[:undefined, :undefined],
    :subfields=>{
      "$a"=>{:definition=>"Postal registration number", :repeat=>false},
-     "$b"=>{:definition=>"Source agency assigning number", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$b"=>{:definition=>"Source agency assigning number", :repeat=>false}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "033"=>
   {:definition=>"Date/Time and Place of an Event",
@@ -324,9 +312,8 @@ module Marcman
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source of term", :repeat=>true},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "034"=>
   {:definition=>"Coded Cartographic Mathematical Data",
@@ -371,9 +358,8 @@ module Marcman
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source", :repeat=>false},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "035"=>
   {:definition=>"System Control Number",
@@ -381,9 +367,8 @@ module Marcman
    :indicators=>[:undefined, :undefined],
    :subfields=>{
      "$a"=>{:definition=>"System control number", :repeat=>false},
-     "$z"=>{:definition=>"Canceled/invalid control number", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$z"=>{:definition=>"Canceled/invalid control number", :repeat=>true}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "036"=>
   {:definition=>"Original Study Number for Computer Data Files",
@@ -391,9 +376,8 @@ module Marcman
    :indicators=>[:undefined, :undefined],
    :subfields=>{
      "$a"=>{:definition=>"Original study number", :repeat=>false},
-     "$b"=>{:definition=>"Source agency assigning number", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$b"=>{:definition=>"Source agency assigning number", :repeat=>false}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "037"=>
   {:definition=>"Source of Acquisition",
@@ -413,18 +397,16 @@ module Marcman
      "$g"=>{:definition=>"Additional format characteristics", :repeat=>true},
      "$n"=>{:definition=>"Note", :repeat=>true},
      "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$5"=>{:definition=>"Institution to which field applies", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$5"=>{:definition=>"Institution to which field applies", :repeat=>true}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "038"=>
   {:definition=>"Record Content Licensor",
    :repeat=>false,
    :indicators=>[:undefined, :undefined],
    :subfields=>{
-     "$a"=>{:definition=>"Record content licensor", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$a"=>{:definition=>"Record content licensor", :repeat=>false}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "040"=>
   {:definition=>"Cataloging Source",
@@ -462,9 +444,8 @@ module Marcman
         "Language code of original accompanying materials other than librettos",
        :repeat=>true},
      "$n"=>{:definition=>"Language code of original libretto", :repeat=>true},
-     "$2"=>{:definition=>"Source of code", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$2"=>{:definition=>"Source of code", :repeat=>false}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "042"=>
   {:definition=>"Authentication Code",
@@ -484,9 +465,8 @@ module Marcman
       {:definition=>"Authority record control number or standard number",
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
-     "$2"=>{:definition=>"Source of local code", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$2"=>{:definition=>"Source of local code", :repeat=>true}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "044"=>
   {:definition=>"Country of Publishing/Producing Entity Code",
@@ -521,9 +501,8 @@ module Marcman
       {:definition=>"Single or starting date for aggregated content",
        :repeat=>false},
      "$p"=>{:definition=>"Ending date for aggregated content", :repeat=>false},
-     "$2"=>{:definition=>"Source of date", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$2"=>{:definition=>"Source of date", :repeat=>false}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "047"=>
   {:definition=>"Form of Musical Composition Code",
@@ -556,9 +535,8 @@ module Marcman
       {:definition=>"Authority record control number or standard number",
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "051"=>
   {:definition=>"Library of Congress Copy, Issue, Offprint Statement",
@@ -586,9 +564,8 @@ module Marcman
       {:definition=>"Authority record control number or standard number",
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
-     "$2"=>{:definition=>"Code source", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$2"=>{:definition=>"Code source", :repeat=>false}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "055"=>
   {:definition=>"Classification Numbers Assigned in Canada",
@@ -618,9 +595,8 @@ module Marcman
       {:definition=>"Authority record control number or standard number",
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
-     "$2"=>{:definition=>"Source of call/class number", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$2"=>{:definition=>"Source of call/class number", :repeat=>false}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "060"=>
   {:definition=>"National Library of Medicine Call Number",
@@ -640,8 +616,7 @@ module Marcman
      "$0"=>
       {:definition=>"Authority record control number or standard number",
        :repeat=>true},
-     "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$1"=>{:definition=>"Real World Object URI", :repeat=>true}},
    :group=>"01X-09X"},
  "061"=>
   {:definition=>"National Library of Medicine Copy Statement",
@@ -671,8 +646,7 @@ module Marcman
      "$0"=>
       {:definition=>"Authority record control number or standard number",
        :repeat=>true},
-     "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$1"=>{:definition=>"Real World Object URI", :repeat=>true}},
    :group=>"01X-09X"},
  "071"=>
   {:definition=>"National Agricultural Library Copy Statement",
@@ -708,9 +682,8 @@ module Marcman
       {:definition=>"Authority record control number or standard number",
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
-     "$2"=>{:definition=>"Edition identifier", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$2"=>{:definition=>"Edition identifier", :repeat=>false}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "082"=>
   {:definition=>"Dewey Decimal Classification Number",
@@ -728,9 +701,8 @@ module Marcman
      "$b"=>{:definition=>"Item number", :repeat=>false},
      "$m"=>{:definition=>"Standard or optional designation", :repeat=>false},
      "$q"=>{:definition=>"Assigning agency", :repeat=>false},
-     "$2"=>{:definition=>"Edition number", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$2"=>{:definition=>"Edition number", :repeat=>false}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "083"=>
   {:definition=>"Additional Dewey Decimal Classification Number",
@@ -747,9 +719,8 @@ module Marcman
      "$m"=>{:definition=>"Standard or optional designation", :repeat=>false},
      "$q"=>{:definition=>"Assigning agency", :repeat=>false},
      "$z"=>{:definition=>"Table identification", :repeat=>true},
-     "$2"=>{:definition=>"Edition number", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$2"=>{:definition=>"Edition number", :repeat=>false}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "084"=>
   {:definition=>"Other Classification Number",
@@ -763,9 +734,8 @@ module Marcman
       {:definition=>"Authority record control number or standard number",
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
-     "$2"=>{:definition=>"Number source", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$2"=>{:definition=>"Number source", :repeat=>false}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "085"=>
   {:definition=>"Synthesized Classification Number Components",
@@ -783,9 +753,8 @@ module Marcman
      "$0"=>
       {:definition=>"Authority record control number or standard number",
        :repeat=>true},
-     "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$1"=>{:definition=>"Real World Object URI", :repeat=>true}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "086"=>
   {:definition=>"Government Document Classification Number",
@@ -805,9 +774,8 @@ module Marcman
       {:definition=>"Authority record control number or standard number",
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
-     "$2"=>{:definition=>"Number source", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$2"=>{:definition=>"Number source", :repeat=>false}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "088"=>
   {:definition=>"Report Number",
@@ -815,9 +783,8 @@ module Marcman
    :indicators=>[:undefined, :undefined],
    :subfields=>
     {"$a"=>{:definition=>"Report number", :repeat=>false},
-     "$z"=>{:definition=>"Canceled/invalid report number", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$z"=>{:definition=>"Canceled/invalid report number", :repeat=>true}},
+   :linkage=>true,
    :group=>"01X-09X"},
  "09X"=>
   {:definition=>"Local Call Numbers",
@@ -853,9 +820,8 @@ module Marcman
       {:definition=>"Authority record control number or standard number",
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
-     "$4"=>{:definition=>"Relationship", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$4"=>{:definition=>"Relationship", :repeat=>true}},
+   :linkage=>true,
    :group=>"1XX"},
  "110"=>
   {:definition=>"Main Entry-Corporate Name",
@@ -887,9 +853,8 @@ module Marcman
       {:definition=>"Authority record control number or standard number",
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
-     "$4"=>{:definition=>"Relationship", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$4"=>{:definition=>"Relationship", :repeat=>true}},
+   :linkage=>true,
    :group=>"1XX"},
  "111"=>
   {:definition=>"Main Entry-Meeting Name",
@@ -925,9 +890,8 @@ module Marcman
       {:definition=>"Authority record control number or standard number",
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
-     "$4"=>{:definition=>"Relationship", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$4"=>{:definition=>"Relationship", :repeat=>true}},
+   :linkage=>true,
    :group=>"1XX"},
  "130"=>
   {:definition=>"Main Entry-Uniform Title",
@@ -954,9 +918,8 @@ module Marcman
      "$0"=>
       {:definition=>"Authority record control number or standard number",
        :repeat=>true},
-     "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$1"=>{:definition=>"Real World Object URI", :repeat=>true}},
+   :linkage=>true,
    :group=>"1XX"},
  "210"=>
   {:definition=>"Abbreviated Title",
@@ -998,9 +961,8 @@ module Marcman
      "$0"=>
       {:definition=>"Authority record control number or standard number",
        :repeat=>true},
-     "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$1"=>{:definition=>"Real World Object URI", :repeat=>true}},
+   :linkage=>true,
    :group=>"20X-24X"},
  "242"=>
   {:definition=>"Translation of Title by Cataloging Agency",
@@ -1031,9 +993,8 @@ module Marcman
      "$o"=>{:definition=>"Arranged statement for music", :repeat=>false},
      "$p"=>{:definition=>"Name of part/section of a work", :repeat=>true},
      "$r"=>{:definition=>"Key for music", :repeat=>false},
-     "$s"=>{:definition=>"Version", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$s"=>{:definition=>"Version", :repeat=>true}},
+   :linkage=>true,
    :group=>"20X-24X"},
  "245"=>
   {:definition=>"Title Statement",
@@ -1074,9 +1035,8 @@ module Marcman
      "$i"=>{:definition=>"Display text", :repeat=>false},
      "$n"=>{:definition=>"Number of part/section of a work", :repeat=>true},
      "$p"=>{:definition=>"Name of part/section of a work", :repeat=>true},
-     "$5"=>{:definition=>"Institution to which field applies", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$5"=>{:definition=>"Institution to which field applies", :repeat=>false}},
+   :linkage=>true,
    :group=>"20X-24X"},
  "247"=>
   {:definition=>"Former Title",
@@ -1095,9 +1055,8 @@ module Marcman
      "$n"=>{:definition=>"Number of part/section of a work", :repeat=>true},
      "$p"=>{:definition=>"Name of part/section of a work", :repeat=>true},
      "$x"=>
-      {:definition=>"International Standard Serial Number", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+      {:definition=>"International Standard Serial Number", :repeat=>false}},
+   :linkage=>true,
    :group=>"20X-24X"},
  "250"=>
   {:definition=>"Edition Statement",
@@ -1106,9 +1065,8 @@ module Marcman
    :subfields=>
     {"$a"=>{:definition=>"Edition statement", :repeat=>false},
      "$b"=>{:definition=>"Remainder of edition statement", :repeat=>false},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"25X-28X"},
  "254"=>
   {:definition=>"Musical Presentation Statement",
@@ -1138,9 +1096,8 @@ module Marcman
       {:definition=>"Authority record control number or standard number",
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
-     "$2"=>{:definition=>"Source", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$2"=>{:definition=>"Source", :repeat=>false}},
+   :linkage=>true,
    :group=>"25X-28X"},
  "258"=>
   {:definition=>"Philatelic Issue Data",
@@ -1169,9 +1126,8 @@ module Marcman
      "$e"=>{:definition=>"Place of manufacture", :repeat=>true},
      "$f"=>{:definition=>"Manufacturer", :repeat=>true},
      "$g"=>{:definition=>"Date of manufacture", :repeat=>true},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"25X-28X"},
  "263"=>
   {:definition=>"Projected Publication Date",
@@ -1208,9 +1164,8 @@ module Marcman
       {:definition=>
         "Date of production, publication, distribution, manufacture, or copyright notice",
        :repeat=>true},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"25X-28X"},
  "270"=>
   {:definition=>"Address",
@@ -1242,9 +1197,8 @@ module Marcman
      "$q"=>{:definition=>"Title of contact person", :repeat=>true},
      "$r"=>{:definition=>"Hours", :repeat=>true},
      "$z"=>{:definition=>"Public note", :repeat=>true},
-     "$4"=>{:definition=>"Relationship", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$4"=>{:definition=>"Relationship", :repeat=>true}},
+   :linkage=>true,
    :group=>"25X-28X"},
  "300"=>
   {:definition=>"Physical Description",
@@ -1257,9 +1211,8 @@ module Marcman
      "$e"=>{:definition=>"Accompanying material", :repeat=>false},
      "$f"=>{:definition=>"Type of unit", :repeat=>true},
      "$g"=>{:definition=>"Size of unit", :repeat=>true},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"3XX"},
  "306"=>
   {:definition=>"Playing Time",
@@ -1298,9 +1251,8 @@ module Marcman
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source", :repeat=>false},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"3XX"},
  "337"=>
   {:definition=>"Media Type",
@@ -1314,9 +1266,8 @@ module Marcman
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source", :repeat=>false},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"3XX"},
  "338"=>
   {:definition=>"Carrier Type",
@@ -1330,9 +1281,8 @@ module Marcman
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source", :repeat=>false},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"3XX"},
  "340"=>
   {:definition=>"Physical Medium",
@@ -1358,9 +1308,8 @@ module Marcman
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source", :repeat=>false},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"3XX"},
  "342"=>
   {:definition=>"Geospatial Reference Data",
@@ -1394,9 +1343,8 @@ module Marcman
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source", :repeat=>false},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"3XX"},
  "345"=>
   {:definition=>"Projection Characteristics of Moving Image",
@@ -1410,9 +1358,8 @@ module Marcman
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source", :repeat=>false},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"3XX"},
  "346"=>
   {:definition=>"Video Characteristics",
@@ -1426,9 +1373,8 @@ module Marcman
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source", :repeat=>false},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"3XX"},
  "347"=>
   {:definition=>"Digital File Characteristics",
@@ -1446,9 +1392,8 @@ module Marcman
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source", :repeat=>false},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"3XX"},
  "348"=>
   {:definition=>"Format of Notated Music",
@@ -1462,9 +1407,8 @@ module Marcman
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source of term", :repeat=>false},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"3XX"},
  "351"=>
   {:definition=>"Organization and Arrangement of Materials",
@@ -1536,9 +1480,8 @@ module Marcman
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source of term", :repeat=>false},
      "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$4"=>{:definition=>"Relationship", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$4"=>{:definition=>"Relationship", :repeat=>true}},
+   :linkage=>true,
    :group=>"3XX"},
  "377"=>
   {:definition=>"Associated Language",
@@ -1555,9 +1498,8 @@ module Marcman
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source", :repeat=>false},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"3XX"},
  "380"=>
   {:definition=>"Form of Work",
@@ -1570,9 +1512,8 @@ module Marcman
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source of term", :repeat=>false},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"3XX"},
  "381"=>
   {:definition=>"Other Distinguishing Characteristics of Work or Expression",
@@ -1587,9 +1528,8 @@ module Marcman
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source of term", :repeat=>false},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"3XX"},
  "382"=>
   {:definition=>"Medium of Performance",
@@ -1626,9 +1566,8 @@ module Marcman
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source of term", :repeat=>false},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"3XX"},
  "383"=>
   {:definition=>"Numeric Designation of Musical Work",
@@ -1642,9 +1581,8 @@ module Marcman
      "$e"=>
       {:definition=>"Publisher associated with opus number", :repeat=>false},
      "$2"=>{:definition=>"Source", :repeat=>false},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"3XX"},
  "384"=>
   {:definition=>"Key",
@@ -1658,9 +1596,8 @@ module Marcman
      :undefined],
    :subfields=>
     {"$a"=>{:definition=>"Key", :repeat=>false},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"3XX"},
  "385"=>
   {:definition=>"Audience Characteristics",
@@ -1676,9 +1613,8 @@ module Marcman
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source", :repeat=>false},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"3XX"},
  "386"=>
   {:definition=>"Creator/Contributor Characteristics",
@@ -1696,9 +1632,8 @@ module Marcman
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source", :repeat=>false},
      "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$4"=>{:definition=>"Relationship", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$4"=>{:definition=>"Relationship", :repeat=>true}},
+   :linkage=>true,
    :group=>"3XX"},
  "388"=>
   {:definition=>"Time Period of Creation",
@@ -1717,9 +1652,8 @@ module Marcman
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source of term", :repeat=>false},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"3XX"},
  "490"=>
   {:definition=>"Series Statement",
@@ -1797,9 +1731,8 @@ module Marcman
      "$u"=>{:definition=>"Uniform Resource Identifier", :repeat=>true},
      "$x"=>
       {:definition=>"International Standard Serial Number", :repeat=>false},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"5XX"},
  "511"=>
   {:definition=>"Participant or Performer Note",
@@ -1848,9 +1781,8 @@ module Marcman
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source of term", :repeat=>true},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"5XX"},
  "520"=>
   {:definition=>"Summary, Etc.",
@@ -1966,9 +1898,8 @@ module Marcman
    :subfields=>
     {"$a"=>{:definition=>"Language note", :repeat=>false},
      "$b"=>{:definition=>"Information code or alphabet", :repeat=>true},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"5XX"},
  "547"=>
   {:definition=>"Former Title Complexity Note",
@@ -2014,9 +1945,8 @@ module Marcman
     {"$a"=>{:definition=>"History", :repeat=>false},
      "$u"=>{:definition=>"Uniform Resource Identifier", :repeat=>true},
      "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$5"=>{:definition=>"Institution to which field applies", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$5"=>{:definition=>"Institution to which field applies", :repeat=>false}},
+   :linkage=>true,
    :group=>"5XX"},
  "562"=>
   {:definition=>"Copy and Version Identification Note",
@@ -2051,9 +1981,8 @@ module Marcman
       {:definition=>"Authority record control number or standard number",
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
-     "$2"=>{:definition=>"Source of term", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$2"=>{:definition=>"Source of term", :repeat=>false}},
+   :linkage=>true,
    :group=>"5XX"},
  "580"=>
   {:definition=>"Linking Entry Complexity Note",
@@ -2100,9 +2029,8 @@ module Marcman
     [{:definition=>"Display constant controller", :values=>{}}, :undefined],
    :subfields=>
     {"$a"=>{:definition=>"Source of description note", :repeat=>false},
-     "$5"=>{:definition=>"Institution to which field applies", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$5"=>{:definition=>"Institution to which field applies", :repeat=>false}},
+   :linkage=>true,
    :group=>"5XX"},
  "59X"=>
   {:definition=>"Local Notes",
@@ -2159,9 +2087,8 @@ module Marcman
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source of heading or term", :repeat=>false},
      "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$4"=>{:definition=>"Relationship", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$4"=>{:definition=>"Relationship", :repeat=>true}},
+   :linkage=>true,
    :group=>"6XX"},
  "610"=>
   {:definition=>"Subject Added Entry-Corporate Name",
@@ -2213,9 +2140,8 @@ module Marcman
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source of heading or term", :repeat=>false},
      "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$4"=>{:definition=>"Relationship", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$4"=>{:definition=>"Relationship", :repeat=>true}},
+   :linkage=>true,
    :group=>"6XX"},
  "611"=>
   {:definition=>"Subject Added Entry-Meeting Name",
@@ -2268,9 +2194,8 @@ module Marcman
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source of heading or term", :repeat=>false},
      "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$4"=>{:definition=>"Relationship", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$4"=>{:definition=>"Relationship", :repeat=>true}},
+   :linkage=>true,
    :group=>"6XX"},
  "630"=>
   {:definition=>"Subject Added Entry-Uniform Title",
@@ -2314,9 +2239,8 @@ module Marcman
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source of heading or term", :repeat=>false},
      "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$4"=>{:definition=>"Relationship", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$4"=>{:definition=>"Relationship", :repeat=>true}},
+   :linkage=>true,
    :group=>"6XX"},
  "647"=>
   {:definition=>"Subject Added Entry-Named Event",
@@ -2347,9 +2271,8 @@ module Marcman
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source of heading or term", :repeat=>false},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"6XX"},
  "648"=>
   {:definition=>"Subject Added Entry-Chronological Term",
@@ -2377,9 +2300,8 @@ module Marcman
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source of heading or term", :repeat=>false},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"6XX"},
  "650"=>
   {:definition=>"Subject Added Entry-Topical Term",
@@ -2422,9 +2344,8 @@ module Marcman
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source of heading or term", :repeat=>false},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"6XX"},
  "651"=>
   {:definition=>"Subject Added Entry-Geographic Name",
@@ -2455,9 +2376,8 @@ module Marcman
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source of heading or term", :repeat=>false},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"6XX"},
  "653"=>
   {:definition=>"Index Term-Uncontrolled",
@@ -2492,9 +2412,8 @@ module Marcman
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source of heading or term", :repeat=>false},
      "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$4"=>{:definition=>"Relationship", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$4"=>{:definition=>"Relationship", :repeat=>true}},
+   :linkage=>true,
    :group=>"6XX"},
  "655"=>
   {:definition=>"Index Term-Genre/Form",
@@ -2525,9 +2444,8 @@ module Marcman
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source of term", :repeat=>false},
      "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$5"=>{:definition=>"Institution to which field applies", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$5"=>{:definition=>"Institution to which field applies", :repeat=>false}},
+   :linkage=>true,
    :group=>"6XX"},
  "656"=>
   {:definition=>"Index Term-Occupation",
@@ -2548,9 +2466,8 @@ module Marcman
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source of term", :repeat=>false},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"6XX"},
  "657"=>
   {:definition=>"Index Term-Function",
@@ -2570,9 +2487,8 @@ module Marcman
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source of term", :repeat=>false},
-     "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$3"=>{:definition=>"Materials specified", :repeat=>false}},
+   :linkage=>true,
    :group=>"6XX"},
  "658"=>
   {:definition=>"Index Term-Curriculum Objective",
@@ -2600,9 +2516,8 @@ module Marcman
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source of heading or term", :repeat=>false},
-     "$4"=>{:definition=>"Relationship", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$4"=>{:definition=>"Relationship", :repeat=>true}},
+   :linkage=>true,
    :group=>"6XX"},
  "69X"=>
   {:definition=>"Local Subject Access Fields",
@@ -2650,9 +2565,8 @@ module Marcman
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$3"=>{:definition=>"Materials specified", :repeat=>false},
      "$4"=>{:definition=>"Relationship", :repeat=>true},
-     "$5"=>{:definition=>"Institution to which field applies", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$5"=>{:definition=>"Institution to which field applies", :repeat=>false}},
+   :linkage=>true,
    :group=>"70X-75X"},
  "710"=>
   {:definition=>"Added Entry-Corporate Name",
@@ -2695,9 +2609,8 @@ module Marcman
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$3"=>{:definition=>"Materials specified", :repeat=>false},
      "$4"=>{:definition=>"Relationship", :repeat=>true},
-     "$5"=>{:definition=>"Institution to which field applies", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$5"=>{:definition=>"Institution to which field applies", :repeat=>false}},
+   :linkage=>true,
    :group=>"70X-75X"},
  "711"=>
   {:definition=>"Added Entry-Meeting Name",
@@ -2741,9 +2654,8 @@ module Marcman
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$3"=>{:definition=>"Materials specified", :repeat=>false},
      "$4"=>{:definition=>"Relationship", :repeat=>true},
-     "$5"=>{:definition=>"Institution to which field applies", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$5"=>{:definition=>"Institution to which field applies", :repeat=>false}},
+   :linkage=>true,
    :group=>"70X-75X"},
  "720"=>
   {:definition=>"Added Entry-Uncontrolled Name",
@@ -2755,9 +2667,8 @@ module Marcman
    :subfields=>
     {"$a"=>{:definition=>"Name", :repeat=>false},
      "$e"=>{:definition=>"Relator term", :repeat=>true},
-     "$4"=>{:definition=>"Relationship", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$4"=>{:definition=>"Relationship", :repeat=>true}},
+   :linkage=>true,
    :group=>"70X-75X"},
  "730"=>
   {:definition=>"Added Entry-Uniform Title",
@@ -2791,9 +2702,8 @@ module Marcman
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$3"=>{:definition=>"Materials specified", :repeat=>false},
      "$4"=>{:definition=>"Relationship", :repeat=>true},
-     "$5"=>{:definition=>"Institution to which field applies", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$5"=>{:definition=>"Institution to which field applies", :repeat=>false}},
+   :linkage=>true,
    :group=>"70X-75X"},
  "740"=>
   {:definition=>"Added Entry-Uncontrolled Related/Analytical Title",
@@ -2816,9 +2726,8 @@ module Marcman
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source of heading or term", :repeat=>false},
      "$3"=>{:definition=>"Materials specified", :repeat=>false},
-     "$4"=>{:definition=>"Relationship", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$4"=>{:definition=>"Relationship", :repeat=>true}},
+   :linkage=>true,
    :group=>"70X-75X"},
  "752"=>
   {:definition=>"Added Entry-Hierarchical Place Name",
@@ -2840,9 +2749,8 @@ module Marcman
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source of heading or term", :repeat=>false},
-     "$4"=>{:definition=>"Relationship", :repeat=>true},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$4"=>{:definition=>"Relationship", :repeat=>true}},
+   :linkage=>true,
    :group=>"70X-75X"},
  "753"=>
   {:definition=>"System Details Access to Computer Files",
@@ -2856,9 +2764,8 @@ module Marcman
       {:definition=>"Authority record control number or standard number",
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
-     "$2"=>{:definition=>"Source of term", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$2"=>{:definition=>"Source of term", :repeat=>false}},
+   :linkage=>true,
    :group=>"70X-75X"},
  "754"=>
   {:definition=>"Added Entry-Taxonomic Identification",
@@ -2874,9 +2781,8 @@ module Marcman
       {:definition=>"Authority record control number or standard number",
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
-     "$2"=>{:definition=>"Source of taxonomic identification", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$2"=>{:definition=>"Source of taxonomic identification", :repeat=>false}},
+   :linkage=>true,
    :group=>"70X-75X"},
  "758"=>
   {:definition=>"Resource Identifier",
@@ -2891,9 +2797,8 @@ module Marcman
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$3"=>{:definition=>"Materials specified", :repeat=>false},
      "$4"=>{:definition=>"Relationship", :repeat=>true},
-     "$5"=>{:definition=>"Institution to which field applies", :repeat=>false},
-     "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$5"=>{:definition=>"Institution to which field applies", :repeat=>false}},
+   :linkage=>true,
    :group=>"70X-75X"},
  "760"=>
   {:definition=>"Main Series Entry",
@@ -2924,8 +2829,7 @@ module Marcman
      "$y"=>{:definition=>"CODEN designation", :repeat=>false},
      "$4"=>{:definition=>"Relationship", :repeat=>true},
      "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$7"=>{:definition=>"Control subfield", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$7"=>{:definition=>"Control subfield", :repeat=>false}},
    :group=>"76X-78X"},
  "762"=>
   {:definition=>"Subseries Entry",
@@ -2956,8 +2860,7 @@ module Marcman
      "$y"=>{:definition=>"CODEN designation", :repeat=>false},
      "$4"=>{:definition=>"Relationship", :repeat=>true},
      "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$7"=>{:definition=>"Control subfield", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$7"=>{:definition=>"Control subfield", :repeat=>false}},
    :group=>"76X-78X"},
  "765"=>
   {:definition=>"Original Language Entry",
@@ -2992,8 +2895,7 @@ module Marcman
      "$z"=>{:definition=>"International Standard Book Number", :repeat=>true},
      "$4"=>{:definition=>"Relationship", :repeat=>true},
      "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$7"=>{:definition=>"Control subfield", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$7"=>{:definition=>"Control subfield", :repeat=>false}},
    :group=>"76X-78X"},
  "767"=>
   {:definition=>"Translation Entry",
@@ -3028,8 +2930,7 @@ module Marcman
      "$z"=>{:definition=>"International Standard Book Number", :repeat=>true},
      "$4"=>{:definition=>"Relationship", :repeat=>true},
      "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$7"=>{:definition=>"Control subfield", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$7"=>{:definition=>"Control subfield", :repeat=>false}},
    :group=>"76X-78X"},
  "770"=>
   {:definition=>"Supplement/Special Issue Entry",
@@ -3064,8 +2965,7 @@ module Marcman
      "$z"=>{:definition=>"International Standard Book Number", :repeat=>true},
      "$4"=>{:definition=>"Relationship", :repeat=>true},
      "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$7"=>{:definition=>"Control subfield", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$7"=>{:definition=>"Control subfield", :repeat=>false}},
    :group=>"76X-78X"},
  "772"=>
   {:definition=>"Supplement Parent Entry",
@@ -3103,8 +3003,7 @@ module Marcman
      "$z"=>{:definition=>"International Standard Book Number", :repeat=>true},
      "$4"=>{:definition=>"Relationship", :repeat=>true},
      "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$7"=>{:definition=>"Control subfield", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$7"=>{:definition=>"Control subfield", :repeat=>false}},
    :group=>"76X-78X"},
  "773"=>
   {:definition=>"Host Item Entry",
@@ -3141,8 +3040,7 @@ module Marcman
      "$3"=>{:definition=>"Materials specified", :repeat=>false},
      "$4"=>{:definition=>"Relationship", :repeat=>true},
      "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$7"=>{:definition=>"Control subfield", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$7"=>{:definition=>"Control subfield", :repeat=>false}},
    :group=>"76X-78X"},
  "774"=>
   {:definition=>"Constituent Unit Entry",
@@ -3178,8 +3076,7 @@ module Marcman
      "$z"=>{:definition=>"International Standard Book Number", :repeat=>true},
      "$4"=>{:definition=>"Relationship", :repeat=>true},
      "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$7"=>{:definition=>"Control subfield", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$7"=>{:definition=>"Control subfield", :repeat=>false}},
    :group=>"76X-78X"},
  "775"=>
   {:definition=>"Other Edition Entry",
@@ -3218,8 +3115,7 @@ module Marcman
      "$z"=>{:definition=>"International Standard Book Number", :repeat=>true},
      "$4"=>{:definition=>"Relationship", :repeat=>true},
      "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$7"=>{:definition=>"Control subfield", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$7"=>{:definition=>"Control subfield", :repeat=>false}},
    :group=>"76X-78X"},
  "776"=>
   {:definition=>"Additional Physical Form Entry",
@@ -3256,8 +3152,7 @@ module Marcman
      "$z"=>{:definition=>"International Standard Book Number", :repeat=>true},
      "$4"=>{:definition=>"Relationship", :repeat=>true},
      "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$7"=>{:definition=>"Control subfield", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$7"=>{:definition=>"Control subfield", :repeat=>false}},
    :group=>"76X-78X"},
  "777"=>
   {:definition=>"Issued With Entry",
@@ -3292,8 +3187,7 @@ module Marcman
      "$z"=>{:definition=>"International Standard Book Number", :repeat=>true},
      "$4"=>{:definition=>"Relationship", :repeat=>true},
      "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$7"=>{:definition=>"Control subfield", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$7"=>{:definition=>"Control subfield", :repeat=>false}},
    :group=>"76X-78X"},
  "780"=>
   {:definition=>"Preceding Entry",
@@ -3336,8 +3230,7 @@ module Marcman
      "$z"=>{:definition=>"International Standard Book Number", :repeat=>true},
      "$4"=>{:definition=>"Relationship", :repeat=>true},
      "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$7"=>{:definition=>"Control subfield", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$7"=>{:definition=>"Control subfield", :repeat=>false}},
    :group=>"76X-78X"},
  "785"=>
   {:definition=>"Succeeding Entry",
@@ -3381,8 +3274,7 @@ module Marcman
      "$z"=>{:definition=>"International Standard Book Number", :repeat=>true},
      "$4"=>{:definition=>"Relationship", :repeat=>true},
      "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$7"=>{:definition=>"Control subfield", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$7"=>{:definition=>"Control subfield", :repeat=>false}},
    :group=>"76X-78X"},
  "786"=>
   {:definition=>"Data Source Entry",
@@ -3420,8 +3312,7 @@ module Marcman
      "$z"=>{:definition=>"International Standard Book Number", :repeat=>true},
      "$4"=>{:definition=>"Relationship", :repeat=>true},
      "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$7"=>{:definition=>"Control subfield", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$7"=>{:definition=>"Control subfield", :repeat=>false}},
    :group=>"76X-78X"},
  "787"=>
   {:definition=>"Other Relationship Entry",
@@ -3456,8 +3347,7 @@ module Marcman
      "$z"=>{:definition=>"International Standard Book Number", :repeat=>true},
      "$4"=>{:definition=>"Relationship", :repeat=>true},
      "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$7"=>{:definition=>"Control subfield", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$7"=>{:definition=>"Control subfield", :repeat=>false}},
    :group=>"76X-78X"},
  "800"=>
   {:definition=>"Series Added Entry-Personal Name",
@@ -3501,8 +3391,7 @@ module Marcman
      "$4"=>{:definition=>"Relationship", :repeat=>true},
      "$5"=>{:definition=>"Institution to which field applies", :repeat=>true},
      "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$7"=>{:definition=>"Control subfield", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$7"=>{:definition=>"Control subfield", :repeat=>false}},
    :group=>"80X-83X"},
  "810"=>
   {:definition=>"Series Added Entry-Corporate Name",
@@ -3544,8 +3433,7 @@ module Marcman
      "$4"=>{:definition=>"Relationship", :repeat=>true},
      "$5"=>{:definition=>"Institution to which field applies", :repeat=>true},
      "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$7"=>{:definition=>"Control subfield", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$7"=>{:definition=>"Control subfield", :repeat=>false}},
    :group=>"80X-83X"},
  "811"=>
   {:definition=>"Series Added Entry-Meeting Name",
@@ -3584,8 +3472,7 @@ module Marcman
      "$4"=>{:definition=>"Relationship", :repeat=>true},
      "$5"=>{:definition=>"Institution to which field applies", :repeat=>true},
      "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$7"=>{:definition=>"Control subfield", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$7"=>{:definition=>"Control subfield", :repeat=>false}},
    :group=>"80X-83X"},
  "830"=>
   {:definition=>"Series Added Entry-Uniform Title",
@@ -3622,8 +3509,7 @@ module Marcman
      "$3"=>{:definition=>"Materials specified", :repeat=>false},
      "$5"=>{:definition=>"Institution to which field applies", :repeat=>true},
      "$6"=>{:definition=>"Linkage", :repeat=>false},
-     "$7"=>{:definition=>"Control subfield", :repeat=>false},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$7"=>{:definition=>"Control subfield", :repeat=>false}},
    :group=>"80X-83X"},
  "850"=>
   {:definition=>"Holding Institution",
@@ -3684,8 +3570,7 @@ module Marcman
      "$0"=>
       {:definition=>"Authority record control number or standard number",
        :repeat=>true},
-     "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
-     "$8"=>{:definition=>"Field link and sequence number", :repeat=>true}},
+     "$1"=>{:definition=>"Real World Object URI", :repeat=>true}},
    :group=>"841-88X"},
  "884"=>
   {:definition=>"Description Conversion Information",
@@ -3744,7 +3629,12 @@ module Marcman
   end
 
   def self.formatSubfields(code)
-    return CODES[code][:subfields].map{|k, v| "    %s - %s (%s)" % [k, v[:definition], v[:repeat] == true ? "repeatable" : "non-repeatable"]}
+    if CODES[code][:linkage]
+      sf = CODES[code][:subfields].merge(LINKAGE).merge(FIELDLINK)
+    else
+      sf = CODES[code][:subfields].merge(FIELDLINK)
+    end
+    sf.map{|k, v| "    %s - %s (%s)" % [k, v[:definition], v[:repeat] == true ? "repeatable" : "non-repeatable"]}
   end
     
 end
