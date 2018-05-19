@@ -988,17 +988,26 @@ module Marcman
  "210"=>
   {:definition=>"Abbreviated Title",
    :repeat=>true,
-   :indicators=>
-    [{:definition=>"Title added entry", :values=>{}},
-     {:definition=>"Type", :values=>{}}],
-   :subfields=>nil,
+   :indicators=>[
+     {:definition=>"Title added entry", :values=>{"0"=>"No added entry",
+                                                  "1"=>"Added entry"}},
+     {:definition=>"Type", :values=>{"#"=>"Abbreviated key title",
+                                     "0"=>"Other abbreviated title"}}],
+   :subfields=>{
+     "$a"=>{:definition=>"Abbreviated title", :repeat=>false},
+     "$b"=>{:definition=>"Qualifying information", :repeat=>false},
+     "$2"=>{:definition=>"Source", :repeat=>true}},
    :group=>"20X-24X"},
  "222"=>
   {:definition=>"Key Title",
    :repeat=>true,
    :indicators=>
-    [:undefined, {:definition=>"Nonfiling characters", :values=>{}}],
-   :subfields=>nil,
+   [:undefined, {:definition=>"Nonfiling characters",
+                 :values=>{"0"=>"No nonfiling characters",
+                           "1-9"=>"Number of nonfiling characters"}}],
+   :subfields=>{
+     "$a"=>{:definition=>"Key title", :repeat=>false},
+     "$b"=>{:definition=>"Qualifying information", :repeat=>false}},
    :group=>"20X-24X"},
  "240"=>
   {:definition=>"Uniform Title",
@@ -1007,7 +1016,7 @@ module Marcman
     [{:definition=>"Uniform title printed or displayed",
       :values=>{"0"=>"Not printed or displayed", "1"=>"Printed or displayed"}},
      {:definition=>"Nonfiling characters",
-      :values=>{"9"=>"Number of nonfiling characters"}}],
+      :values=>{"0-9"=>"Number of nonfiling characters"}}],
    :subfields=>
     {"$a"=>{:definition=>"Uniform title", :repeat=>false},
      "$d"=>{:definition=>"Date of treaty signing", :repeat=>true},
@@ -1032,9 +1041,22 @@ module Marcman
   {:definition=>"Translation of Title by Cataloging Agency",
    :repeat=>true,
    :indicators=>
-    [{:definition=>"Title added entry", :values=>{}},
-     {:definition=>"Nonfiling characters", :values=>{}}],
-   :subfields=>nil,
+    [{:definition=>"Title added entry", :values=>{"0"=>"No added entry",
+                                                  "1"=>"Added entry"}},
+     {:definition=>"Nonfiling characters",
+      :values=>{"0"=>"No nonfiling characters",
+                "1-9"=>"Number of nonfiling characters"}}],
+   :subfields=>{
+     "$a"=>{:definition=>"Title", :repeat=>false},
+     "$b"=>{:definition=>"Remainder of title", :repeat=>false},
+     "$c"=>{:definition=>"Statement of responsibility, etc.",
+            :repeat=>false},
+     "$h"=>{:definition=>"Medium", :repeat=>false},
+     "$n"=>{:definition=>"Number of part/section of a work",
+            :repeat=>true}, 	
+     "$p"=>{:definition=>"Name of part/section of a work", :repeat=>true},
+     "$y"=>{:definition=>"Language code of translated title",
+            :repeat=>false}},
    :group=>"20X-24X"},
  "243"=>
   {:definition=>"Collective Uniform Title",
@@ -1043,7 +1065,7 @@ module Marcman
     [{:definition=>"Uniform title printed or displayed",
       :values=>{"0"=>"Not printed or displayed", "1"=>"Printed or displayed"}},
      {:definition=>"Nonfiling characters",
-      :values=>{"9"=>"Number of nonfiling characters"}}],
+      :values=>{"1-9"=>"Number of nonfiling characters"}}],
    :subfields=>
     {"$a"=>{:definition=>"Uniform title", :repeat=>false},
      "$d"=>{:definition=>"Date of treaty signing", :repeat=>true},
@@ -1064,9 +1086,22 @@ module Marcman
   {:definition=>"Title Statement",
    :repeat=>false,
    :indicators=>
-    [{:definition=>"Title added entry", :values=>{}},
-     {:definition=>"Nonfiling characters", :values=>{}}],
-   :subfields=>nil,
+   [{:definition=>"Title added entry", :values=>{"0"=>"No added entry",
+                                                 "1"=>"Added entry"}},
+    {:definition=>"Nonfiling characters",
+     :values=>{"0"=>"No nonfiling characters",
+               "1-9"=>"Number of nonfiling characters"}}],
+   :subfields=>{
+     "$a"=>{:definition=>"Title", :repeat=>false},
+     "$b"=>{:definition=>"Remainder of title", :repeat=>false},
+     "$c"=>{:definition=>"Statement of responsibility, etc.", :repeat=>false},
+     "$f"=>{:definition=>"Inclusive dates", :repeat=>false},
+     "$g"=>{:definition=>"Bulk dates", :repeat=>false},
+     "$h"=>{:definition=>"Medium", :repeat=>false},
+     "$k"=>{:definition=>"Form", :repeat=>true},
+     "$n"=>{:definition=>"Number of part/section of a work", :repeat=>true},
+     "$p"=>{:definition=>"Name of part/section of a work", :repeat=>true},
+     "$s"=>{:definition=>"Version", :repeat=>false}},
    :group=>"20X-24X"},
  "246"=>
   {:definition=>"Varying Form of Title",
