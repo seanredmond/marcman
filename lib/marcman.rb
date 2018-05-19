@@ -4,7 +4,7 @@ require "pp"
 
 module Marcman
   LINKAGE = {"$6"=>{:definition=>"Linkage", :repeat=>false}}
-  FIELDLINK = {"$8"=>{:definition=>"Field link and sequence number", :repeat=>"true"}}
+  FIELDLINK = {"$8"=>{:definition=>"Field link and sequence number", :repeat=>true}}
 
   CODES = {"001"=>
   {:definition=>"Control Number",
@@ -57,6 +57,7 @@ module Marcman
      "$a"=>{:definition=>"LC control number", :repeat=>false},
      "$b"=>{:definition=>"NUCMC control number", :repeat=>true},
      "$z"=>{:definition=>"Canceled/invalid LC control number", :repeat=>true}},
+   :linkage=>false,
    :group=>"01X-09X"},
  "013"=>
   {:definition=>"Patent Control Information",
@@ -69,7 +70,6 @@ module Marcman
      "$d"=>{:definition=>"Date", :repeat=>true},
      "$e"=>{:definition=>"Status", :repeat=>true},
      "$f"=>{:definition=>"Party to document", :repeat=>true}},
-   :linkage=>true,
    :group=>"01X-09X"},
  "015"=>
   {:definition=>"National Bibliography Number",
@@ -96,6 +96,7 @@ module Marcman
      "$a"=>{:definition=>"Record control number", :repeat=>false},
      "$z"=>{:definition=>"Canceled/invalid control number", :repeat=>true},
      "$2"=>{:definition=>"Source", :repeat=>false}},
+   :linkage=>false,
    :group=>"01X-09X"},
  "017"=>
   {:definition=>"Copyright or Legal Deposit Number",
@@ -114,7 +115,6 @@ module Marcman
        :definition=>"Canceled/invalid copyright or legal deposit number",
        :repeat=>true},
      "$2"=>{:definition=>"Source", :repeat=>false}},
-   :linkage=>true,
    :group=>"01X-09X"},
  "018"=>
   {:definition=>"Copyright Article-Fee Code",
@@ -122,7 +122,6 @@ module Marcman
    :indicators=>[:undefined, :undefined],
    :subfields=>{
      "$a"=>{:definition=>"Copyright article-fee code", :repeat=>false}},
-   :linkage=>true,
    :group=>"01X-09X"},
  "020"=>
   {:definition=>"International Standard Book Number",
@@ -133,7 +132,6 @@ module Marcman
      "$c"=>{:definition=>"Terms of availability", :repeat=>false},
      "$q"=>{:definition=>"Qualifying information", :repeat=>true},
      "$z"=>{:definition=>"Canceled/invalid ISBN", :repeat=>true}},
-   :linkage=>true,
    :group=>"01X-09X"},
  "022"=>
   {:definition=>"International Standard Serial Number",
@@ -152,7 +150,6 @@ module Marcman
      "$y"=>{:definition=>"Incorrect ISSN", :repeat=>true},
      "$z"=>{:definition=>"Canceled ISSN", :repeat=>true},
      "$2"=>{:definition=>"Source", :repeat=>false}},
-   :linkage=>true,
    :group=>"01X-09X"},
  "024"=>
   {:definition=>"Other Standard Identifier",
@@ -182,7 +179,6 @@ module Marcman
      "$z"=>
       {:definition=>"Canceled/invalid standard number or code", :repeat=>true},
      "$2"=>{:definition=>"Source of number or code", :repeat=>false}},
-   :linkage=>true,
    :group=>"01X-09X"},
  "025"=>
   {:definition=>"Overseas Acquisition Number",
@@ -190,6 +186,7 @@ module Marcman
    :indicators=>[:undefined, :undefined],
    :subfields=>{
      "$a"=>{:definition=>"Overseas acquisition number", :repeat=>true}},
+   :linkage=>false,
    :group=>"01X-09X"},
  "026"=>
   {:definition=>"Fingerprint Identifier",
@@ -205,7 +202,6 @@ module Marcman
      "$e"=>{:definition=>"Unparsed fingerprint", :repeat=>false},
      "$2"=>{:definition=>"Source", :repeat=>false},
      "$5"=>{:definition=>"Institution to which field applies", :repeat=>true}},
-   :linkage=>true,
    :group=>"01X-09X"},
  "027"=>
   {:definition=>"Standard Technical Report Number",
@@ -215,7 +211,6 @@ module Marcman
     {"$a"=>{:definition=>"Standard technical report number", :repeat=>false},
      "$q"=>{:definition=>"Qualifying information", :repeat=>true},
      "$z"=>{:definition=>"Canceled/invalid number", :repeat=>true}},
-   :linkage=>true,
    :group=>"01X-09X"},
  "028"=>
   {:definition=>"Publisher or Distributor Number",
@@ -240,7 +235,6 @@ module Marcman
     {"$a"=>{:definition=>"Publisher or distributor number", :repeat=>false},
      "$b"=>{:definition=>"Source", :repeat=>false},
      "$q"=>{:definition=>"Qualifying information", :repeat=>true}},
-   :linkage=>true,
    :group=>"01X-09X"},
  "030"=>
   {:definition=>"CODEN Designation",
@@ -249,7 +243,6 @@ module Marcman
    :subfields=>{
      "$a"=>{:definition=>"CODEN", :repeat=>false},
      "$z"=>{:definition=>"Canceled/invalid CODEN", :repeat=>true}},
-   :linkage=>true,
    :group=>"01X-09X"},
  "031"=>
   {:definition=>"Musical Incipits Information",
@@ -274,7 +267,6 @@ module Marcman
      "$y"=>{:definition=>"Link text", :repeat=>true},
      "$z"=>{:definition=>"Public note", :repeat=>true},
      "$2"=>{:definition=>"System code", :repeat=>false}},
-   :linkage=>true,
    :group=>"01X-09X"},
  "032"=>
   {:definition=>"Postal Registration Number",
@@ -283,7 +275,6 @@ module Marcman
    :subfields=>{
      "$a"=>{:definition=>"Postal registration number", :repeat=>false},
      "$b"=>{:definition=>"Source agency assigning number", :repeat=>false}},
-   :linkage=>true,
    :group=>"01X-09X"},
  "033"=>
   {:definition=>"Date/Time and Place of an Event",
@@ -313,7 +304,6 @@ module Marcman
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source of term", :repeat=>true},
      "$3"=>{:definition=>"Materials specified", :repeat=>false}},
-   :linkage=>true,
    :group=>"01X-09X"},
  "034"=>
   {:definition=>"Coded Cartographic Mathematical Data",
@@ -359,7 +349,6 @@ module Marcman
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source", :repeat=>false},
      "$3"=>{:definition=>"Materials specified", :repeat=>false}},
-   :linkage=>true,
    :group=>"01X-09X"},
  "035"=>
   {:definition=>"System Control Number",
@@ -368,7 +357,6 @@ module Marcman
    :subfields=>{
      "$a"=>{:definition=>"System control number", :repeat=>false},
      "$z"=>{:definition=>"Canceled/invalid control number", :repeat=>true}},
-   :linkage=>true,
    :group=>"01X-09X"},
  "036"=>
   {:definition=>"Original Study Number for Computer Data Files",
@@ -377,7 +365,6 @@ module Marcman
    :subfields=>{
      "$a"=>{:definition=>"Original study number", :repeat=>false},
      "$b"=>{:definition=>"Source agency assigning number", :repeat=>false}},
-   :linkage=>true,
    :group=>"01X-09X"},
  "037"=>
   {:definition=>"Source of Acquisition",
@@ -398,7 +385,6 @@ module Marcman
      "$n"=>{:definition=>"Note", :repeat=>true},
      "$3"=>{:definition=>"Materials specified", :repeat=>false},
      "$5"=>{:definition=>"Institution to which field applies", :repeat=>true}},
-   :linkage=>true,
    :group=>"01X-09X"},
  "038"=>
   {:definition=>"Record Content Licensor",
@@ -406,13 +392,17 @@ module Marcman
    :indicators=>[:undefined, :undefined],
    :subfields=>{
      "$a"=>{:definition=>"Record content licensor", :repeat=>false}},
-   :linkage=>true,
    :group=>"01X-09X"},
  "040"=>
   {:definition=>"Cataloging Source",
    :repeat=>false,
    :indicators=>[:undefined, :undefined],
-   :subfields=>nil,
+   :subfields=>{
+     "$a"=>{:definition=>"Original cataloging agency", :repeat=>false},
+     "$b"=>{:definition=>"Language of cataloging", :repeat=>false},
+     "$c"=>{:definition=>"Transcribing agency", :repeat=>false},
+     "$d"=>{:definition=>"Modifying agency", :repeat=>true},
+     "$e"=>{:definition=>"Description conventions", :repeat=>true}},
    :group=>"01X-09X"},
  "041"=>
   {:definition=>"Language Code",
@@ -445,13 +435,14 @@ module Marcman
        :repeat=>true},
      "$n"=>{:definition=>"Language code of original libretto", :repeat=>true},
      "$2"=>{:definition=>"Source of code", :repeat=>false}},
-   :linkage=>true,
    :group=>"01X-09X"},
  "042"=>
   {:definition=>"Authentication Code",
    :repeat=>false,
    :indicators=>[:undefined, :undefined],
-   :subfields=>nil,
+   :subfields=>{"$a"=>{:definition=>"Authentication code", :repeat=>true}},
+   :linkage=>false,
+   :fieldlink=>false,
    :group=>"01X-09X"},
  "043"=>
   {:definition=>"Geographic Area Code",
@@ -466,13 +457,16 @@ module Marcman
        :repeat=>true},
      "$1"=>{:definition=>"Real World Object URI", :repeat=>true},
      "$2"=>{:definition=>"Source of local code", :repeat=>true}},
-   :linkage=>true,
    :group=>"01X-09X"},
  "044"=>
   {:definition=>"Country of Publishing/Producing Entity Code",
    :repeat=>false,
    :indicators=>[:undefined, :undefined],
-   :subfields=>nil,
+   :subfields=>{
+     "$a"=>{:definition=>"MARC country code", :repeat=>true},
+     "$b"=>{:definition=>"Local subentity code", :repeat=>true},
+     "$c"=>{:definition=>"ISO country code", :repeat=>true},
+     "$2"=>{:definition=>"Source of local subentity code", :repeat=>true}},
    :group=>"01X-09X"},
  "045"=>
   {:definition=>"Time Period of Content",
@@ -3628,12 +3622,27 @@ module Marcman
            indicator[:values].map{|k, v| "    %s - %s" % [k, v]}
   end
 
-  def self.formatSubfields(code)
-    if CODES[code][:linkage]
-      sf = CODES[code][:subfields].merge(LINKAGE).merge(FIELDLINK)
-    else
-      sf = CODES[code][:subfields].merge(FIELDLINK)
+  def self.addLinkage(code)
+    linkage = (CODES[code][:linkage] != false)
+    fieldlink = (CODES[code][:fieldlink] != false)
+
+    if linkage and fieldlink
+      return CODES[code][:subfields].merge(LINKAGE).merge(FIELDLINK)
     end
+
+    if fieldlink
+      return CODES[code][:subfields].merge(FIELDLINK)
+    end
+
+    if linkage
+      return CODES[code][:subfields].merge(LINKAGE)
+    end
+
+    return CODES[code][:subfields]
+  end
+
+  def self.formatSubfields(code)
+    sf = addLinkage(code)
     sf.map{|k, v| "    %s - %s (%s)" % [k, v[:definition], v[:repeat] == true ? "repeatable" : "non-repeatable"]}
   end
     
