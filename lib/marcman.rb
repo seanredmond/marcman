@@ -1171,19 +1171,28 @@ module Marcman
   {:definition=>"Musical Presentation Statement",
    :repeat=>false,
    :indicators=>[:undefined, :undefined],
-   :subfields=>nil,
+   :subfields=>{"$a"=>{:definition=>"Musical presentation statement",
+                       :repeat=>false}},
    :group=>"25X-28X"},
  "255"=>
   {:definition=>"Cartographic Mathematical Data",
    :repeat=>true,
    :indicators=>[:undefined, :undefined],
-   :subfields=>nil,
+   :subfields=>{
+     "$a"=>{:definition=>"Statement of scale", :repeat=>false},
+     "$b"=>{:definition=>"Statement of projection", :repeat=>false},
+     "$c"=>{:definition=>"Statement of coordinates", :repeat=>false},
+     "$d"=>{:definition=>"Statement of zone", :repeat=>false},
+     "$e"=>{:definition=>"Statement of equinox", :repeat=>false},
+     "$f"=>{:definition=>"Outer G-ring coordinate pairs", :repeat=>false},
+     "$g"=>{:definition=>"Exclusion G-ring coordinate pairs", :repeat=>false}},
    :group=>"25X-28X"},
  "256"=>
   {:definition=>"Computer File Characteristics",
    :repeat=>false,
    :indicators=>[:undefined, :undefined],
-   :subfields=>nil,
+   :subfields=>{"$a"=>{:definition=>"Computer file characteristics",
+                       :repeat=>false}},
    :group=>"25X-28X"},
  "257"=>
   {:definition=>"Country of Producing Entity",
@@ -1202,7 +1211,9 @@ module Marcman
   {:definition=>"Philatelic Issue Data",
    :repeat=>true,
    :indicators=>[:undefined, :undefined],
-   :subfields=>nil,
+   :subfields=>{
+     "$a"=>{:definition=>"Issuing jurisdiction", :repeat=>false},
+     "$b"=>{:definition=>"Denomination", :repeat=>false}},
    :group=>"25X-28X"},
  "260"=>
   {:definition=>"Publication, Distribution, etc. (Imprint)",
@@ -1232,7 +1243,8 @@ module Marcman
   {:definition=>"Projected Publication Date",
    :repeat=>false,
    :indicators=>[:undefined, :undefined],
-   :subfields=>nil,
+   :subfields=>{"$a"=>{:definition=>"Projected publication date",
+                       :repeat=>false}},
    :group=>"25X-28X"},
  "264"=>
   {:definition=>
