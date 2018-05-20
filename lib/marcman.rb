@@ -4177,9 +4177,62 @@ module Marcman
  {:definition=>"Holdings Coded Data Values",
   :repeat=>false,
   :indicators=>[:undefined, :undefined],
-  :subfields=>nil,
+  :subfields=>{
+    "$a"=>{:definition=>"Type of record", :repeat=>false},
+    "$b"=>{:definition=>"Fixed-length data elements", :repeat=>false},
+    "$e"=>{:definition=>"Encoding level", :repeat=>false}},
+  :linkage=>false,
+  :fieldlink=>false,
   :group=>"841-88X",
   :docurl=>"https://www.loc.gov/marc/holdings/hd841.html"},
+ "842"=>
+ {:definition=>"Textual Physical Form Designator",
+  :repeat=>false,
+  :indicators=>[:undefined, :undefined],
+  :subfields=>{
+    "$a"=>{:definition=>"Textual physical form designator", :repeat=>false}},
+  :group=>"841-88X",
+  :docurl=>"https://www.loc.gov/marc/holdings/hd842.html"},
+ "843"=>
+ {:definition=>"Reproduction Note",
+  :repeat=>true,
+  :indicators=>[:undefined, :undefined],
+  :subfields=>{
+    "$a"=>{:definition=>"Type of reproduction", :repeat=>false},
+    "$b"=>{:definition=>"Place of reproduction"},
+    "$c"=>{:definition=>"Agency responsible for reproduction"},
+    "$d"=>{:definition=>"Date of reproduction", :repeat=>false},
+    "$e"=>{:definition=>"Physical description of reproduction", :repeat=>false},
+    "$f"=>{:definition=>"Series statement of reproduction"},
+    "$m"=>{:definition=>"Dates of publication and/or sequential designation of issues reproduced"},
+    "$n"=>{:definition=>"Note about reproduction"},
+    "$3"=>{:definition=>"Materials specified", :repeat=>false},
+    "$5"=>{:definition=>"Institution to which field applies", :repeat=>false},
+    "$7"=>{:definition=>"Fixed-length data elements of reproduction",
+           :repeat=>false}},
+  :group=>"841-88X",
+  :docurl=>"https://www.loc.gov/marc/holdings/hd843.html"},
+ "844"=>
+ {:definition=>"Name of Unit",
+  :repeat=>false,
+  :indicators=>[:undefined, :undefined],
+  :subfields=>{"$a"=>{:definition=>"Name of unit", :repeat=>false}},
+  :group=>"841-88X",
+  :docurl=>"https://www.loc.gov/marc/holdings/hd844.html"},
+ "845"=>
+ {:definition=>"Terms Governing Use and Reproduction",
+  :repeat=>true,
+  :indicators=>[:undefined, :undefined],
+  :subfields=>{
+    "$a"=>{:definition=>"Terms governing use and reproduction", :repeat=>false},
+    "$b"=>{:definition=>"Jurisdiction", :repeat=>false},
+    "$c"=>{:definition=>"Authorization", :repeat=>false},
+    "$d"=>{:definition=>"Authorized users", :repeat=>false},
+    "$u"=>{:definition=>"Uniform Resource Identifier"},
+    "$3"=>{:definition=>"Materials specified", :repeat=>false},
+    "$5"=>{:definition=>"Institution to which field applies", :repeat=>false}},
+  :group=>"841-88X",
+  :docurl=>"https://www.loc.gov/marc/holdings/hd845.html"},
  "850"=>
   {:definition=>"Holding Institution",
    :repeat=>true,
@@ -4326,8 +4379,11 @@ module Marcman
 
   def self.formatSubfields(code)
     sf = addLinkage(code)
-    sf.map{|k, v| "    %s - %s%s" % [k, v[:definition],
-                                     formatRepeat(v[:repeat])]}
+    # Sort characters before numbers
+    numkeys, charkeys = sf.partition{|a| a[0][1] >= "0" and a[0][1] <= "9"}
+    (charkeys.sort + numkeys.sort).
+      map{|k, v| "    %s - %s%s" % [k, v[:definition],
+                                    formatRepeat(v[:repeat])]}
   end
     
 end
