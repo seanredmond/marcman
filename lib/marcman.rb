@@ -39,7 +39,7 @@ module Marcman
    :repeat=>true,
    :indicators=>
     [{:definition=>"Books", :values=>{}},
-     {:definition=>"\n" + "            Music", :values=>{}}],
+     {:definition=>"Music", :values=>{}}],
    :subfields=>nil,
    :group=>"00X"},
  "007"=>
