@@ -51,7 +51,11 @@ if options[:subfields] and Marcman::CODES[code][:subfields]
 end
 
 if options[:browser]
-  Launchy.open(
-    "https://www.loc.gov/marc/bibliographic/bd%s.html" % code.downcase
-  )
+  if Marcman::CODES[code][:docurl].nil?
+    Launchy.open(
+      "https://www.loc.gov/marc/bibliographic/bd%s.html" % code.downcase
+    )
+  else
+    Launchy.open(Marcman::CODES[code][:docurl])
+  end
 end

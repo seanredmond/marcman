@@ -4173,6 +4173,13 @@ module Marcman
      "$6"=>{:definition=>"Linkage", :repeat=>false},
      "$7"=>{:definition=>"Control subfield", :repeat=>false}},
    :group=>"80X-83X"},
+ "841"=>
+ {:definition=>"Holdings Coded Data Values",
+  :repeat=>false,
+  :indicators=>[:undefined, :undefined],
+  :subfields=>nil,
+  :group=>"841-88X",
+  :docurl=>"https://www.loc.gov/marc/holdings/hd841.html"},
  "850"=>
   {:definition=>"Holding Institution",
    :repeat=>true,
