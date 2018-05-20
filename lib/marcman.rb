@@ -2837,7 +2837,7 @@ module Marcman
    :repeat=>true,
    :indicators=>
     [{:definition=>"Nonfiling characters",
-      :values=>{"9"=>"Number of nonfiling characters"}},
+      :values=>{"0-9"=>"Number of nonfiling characters"}},
      {:definition=>"Thesaurus",
       :values=>
        {"0"=>"Library of Congress Subject Headings",
@@ -3018,9 +3018,21 @@ module Marcman
   {:definition=>"Index Term-Uncontrolled",
    :repeat=>true,
    :indicators=>
-    [{:definition=>"Level of index term", :values=>{}},
-     {:definition=>"Type of term or name", :values=>{}}],
-   :subfields=>nil,
+   [{:definition=>"Level of index term",
+     :values=>{"#"=>"No information provided",
+               "0"=>"No level specified",
+               "1"=>"Primary",
+               "2"=>"Secondary"}},
+    {:definition=>"Type of term or name",
+     :values=>{"#"=>"No information provided",
+               "0"=>"Topical term",
+               "1"=>"Personal name",
+               "2"=>"Corporate name",
+               "3"=>"Meeting name",
+               "4"=>"Chronological term",
+               "5"=>"Geographic name",
+               "6"=>"Genre/form term"}}],
+   :subfields=>{"$a"=>{:definition=>"Uncontrolled term"}},
    :group=>"6XX"},
  "654"=>
   {:definition=>"Subject Added Entry-Faceted Topical Terms",
@@ -3129,7 +3141,12 @@ module Marcman
   {:definition=>"Index Term-Curriculum Objective",
    :repeat=>true,
    :indicators=>[:undefined, :undefined],
-   :subfields=>nil,
+   :subfields=>{
+     "$a"=>{:definition=>"Main curriculum objective", :repeat=>false},
+     "$b"=>{:definition=>"Subordinate curriculum objective"},
+     "$c"=>{:definition=>"Curriculum code", :repeat=>false},
+     "$d"=>{:definition=>"Correlation factor", :repeat=>false},
+     "$2"=>{:definition=>"Source of term or code", :repeat=>false}},
    :group=>"6XX"},
  "662"=>
   {:definition=>"Subject Added Entry-Hierarchical Place Name",
