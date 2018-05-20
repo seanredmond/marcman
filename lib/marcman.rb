@@ -3327,7 +3327,7 @@ module Marcman
    :repeat=>true,
    :indicators=>
     [{:definition=>"Nonfiling characters",
-      :values=>{"9"=>"Number of nonfiling characters"}},
+      :values=>{"0-9"=>"Number of nonfiling characters"}},
      {:definition=>"Type of added entry",
       :values=>{"#"=>"No information provided", "2"=>"Analytical entry"}}],
    :subfields=>
@@ -3361,9 +3361,19 @@ module Marcman
   {:definition=>"Added Entry-Uncontrolled Related/Analytical Title",
    :repeat=>true,
    :indicators=>
-    [{:definition=>"Nonfiling characters", :values=>{}},
-     {:definition=>"Type of added entry", :values=>{}}],
-   :subfields=>nil,
+   [{:definition=>"Nonfiling characters",
+     :values=>{"0"=>"No nonfiling characters",
+               "1-9"=>"Number of nonfiling characters"}},
+    {:definition=>"Type of added entry",
+     :values=>{"#"=>"No information provided",
+               "2"=>"Analytical entry"}}],
+   :subfields=>{
+     "$a"=>{:definition=>"Uncontrolled related/analytical title",
+            :repeat=>false},
+     "$h"=>{:definition=>"Medium", :repeat=>false},
+     "$n"=>{:definition=>"Number of part/section of a work"},
+     "$p"=>{:definition=>"Name of part/section of a work"},
+     "$5"=>{:definition=>"Institution to which field applies", :repeat=>false}},
    :group=>"70X-75X"},
  "751"=>
   {:definition=>"Added Entry-Geographic Name",
