@@ -4144,7 +4144,7 @@ module Marcman
      {:definition=>"Nonfiling characters",
       :values=>
        {"0"=>"No nonfiling characters",
-        "9"=>"Number of nonfiling characters"}}],
+        "1-9"=>"Number of nonfiling characters"}}],
    :subfields=>
     {"$a"=>{:definition=>"Uniform title", :repeat=>false},
      "$d"=>{:definition=>"Date of treaty signing"},
