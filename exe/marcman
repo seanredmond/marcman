@@ -4,7 +4,10 @@ require "launchy"
 require "marcman"
 
 
-options = {:browser => false, :indicators => false, :subfields => false}
+options = {:browser => false,
+           :indicators => false,
+           :repeat=>false,
+           :subfields => false}
 OptionParser.new do |opts|
   opts.banner = "Usage: marcman [CODE] [options]"
 
@@ -14,6 +17,10 @@ OptionParser.new do |opts|
 
   opts.on("-i", "--[no-]indicators", "Show definitions of indicators") do |i|
     options[:indicators] = i
+  end
+
+  opts.on("-r", "--[no-]repeatable", "Show repeatability") do |r|
+    options[:repeat] = r
   end
 
   opts.on("-s", "--[no-]subfields", "Show subfield definitions") do |s|
@@ -38,7 +45,7 @@ end
 
 #desc, repeat = field
 
-puts "%s: %s%s" % [code, field[:definition], Marcman::formatRepeat(field[:repeat])]
+puts "%s: %s%s" % [code, field[:definition], Marcman::formatRepeat(field[:repeat], options[:repeat])]
 if options[:indicators] and Marcman::CODES[code][:indicators]
   (1..2).each do |i|
     puts Marcman::formatIndicators(code, i).join("\n")
@@ -47,7 +54,7 @@ end
 
 if options[:subfields] and Marcman::CODES[code][:subfields]
   puts "  Subfields:"
-  puts Marcman::formatSubfields(code).join("\n")
+  puts Marcman::formatSubfields(code, options[:repeat]).join("\n")
 end
 
 if options[:browser]
