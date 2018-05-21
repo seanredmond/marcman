@@ -167,7 +167,7 @@ end
 
 options = {:q => 10}
 OptionParser.new do |opts|
-  opts.banner = "Usage: marcman [CODE] [options]"
+  opts.banner = "Usage: marcquiz [options]"
 
   opts.on("-q", "--questions=QUESTIONS",
           "Number of questions for the quiz (Default: 10") do |q|
@@ -178,7 +178,7 @@ end.parse!
 
 begin
   puts "Your final score: %s" % formatScore(
-         ask(Marcman::CODES.map{|k, v| [k, v]},1, options[:q]),
+         ask(Marcman::MARC.map{|k, v| [k, v]},1, options[:q]),
          options[:q])
 rescue StopTheQuiz
   puts "Thanks for playing!"
