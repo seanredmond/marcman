@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{Little command line utility for looking up MARC field definitions.}
   spec.description   = %q{Little command line utility for looking up MARC field definitions.}
-  spec.homepage      = "http://127.0.0.1"
+  spec.homepage      = "https://github.com/seanredmond/marcman"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
