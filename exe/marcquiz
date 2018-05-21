@@ -1,0 +1,185 @@
+#!/usr/bin/env ruby
+
+require "colorize"
+require "marcman"
+require "optparse"
+
+class StopTheQuiz < StandardError; end
+
+# Loop until a valid response is given. Return the answer as an integer
+def getAnswer(cnt)
+  print "Enter your answer (Q to quit): "
+
+  loop do
+    answer = gets.chomp
+    if answer.downcase == "q"
+      raise StopTheQuiz.new
+    end
+
+    if answer >= "1" and answer <= cnt.to_s
+      return answer.to_i
+      break
+    end
+
+    print "Enter a number between 1 and %d, or Q to quit:" % cnt
+  end
+end
+
+# Print message saying whether you were right or wrong. Return 1 point for
+# right, 0 for wrong
+def evaluate(correct, candidates)
+  cnt = candidates.count
+  code = candidates[correct-1][0]
+  definition = candidates[correct-1][1][:definition]
+  
+  if getAnswer(cnt) == correct
+    puts "Correct!".colorize(:green)
+    return 1
+  end
+
+  puts"Sorry, the right answer was #%d. %s: %s"
+    .colorize(:red) % [correct, code, definition]
+
+  return 0
+end
+
+# Print out codes as possible answers
+def askCodes(candidates)
+  candidates.each_with_index do |c, i|
+    puts "%d. %s" % [i + 1, c[0]]
+  end
+  puts ""
+end
+
+# Print out definitiosn as possible answers
+def askDefs(candidates)
+  candidates.each_with_index do |c, i|
+    puts "%d. %s" % [i + 1, c[1][:definition]]
+  end
+  puts ""
+end  
+
+# Question Format 1:
+# Give the code for a field definition
+def qformat1(candidates, correct)
+  puts "Which field is \"%s\"?".
+         underline % candidates[correct-1][1][:definition]
+  puts ""
+
+  askCodes(candidates)
+
+  return evaluate(correct, candidates)
+end
+
+# Question Format 2:
+# Give the definitions for a field code
+def qformat2(candidates, correct)
+
+  puts "Which is field %s?".underline % candidates[correct-1][0]
+  puts ""
+
+  askDefs(candidates)
+
+  return evaluate(correct, candidates)
+end
+
+# Question Format 3:
+# Give the definition for a subfield code
+def qformat3(test_field, candidates, correct)
+  puts "For field %s: \"%s\" which subfield is subfield %s?"
+         .underline % [test_field[0],
+                       test_field[1][:definition],
+                       candidates[correct - 1][0]]
+  puts ""
+
+  askDefs(candidates)
+
+  return evaluate(correct, candidates)
+end
+
+# Question Format 4:
+# Give the code for a subfield candidate
+def qformat4(test_field, candidates, correct)
+  puts "For field %s: \"%s\" which subfield is \"%s\"?"
+         .underline % [test_field[0],
+                       test_field[1][:definition],
+                       candidates[correct - 1][1][:definition]]
+  puts ""
+
+  askCodes(candidates)
+
+  return evaluate(correct, candidates)
+end
+
+# Recursively find a field that a) has subfields and b) has more than one
+# subfield for question formats 3 & 4
+def getFieldWithSubfields(fields)
+  f = fields.sample(1).first
+  if f[1][:subfields].nil? or f[1][:subfields].count < 2
+    return getFieldWithSubfields(fields)
+  end
+  return f
+end
+
+def formatScore(score, n)
+  "%d/%d (%d%%)" % [score, n, ((score / n) * 100).round]
+end
+  
+
+# Pose a question in one of 4 formats. Recurse until the full number of
+# questions has been asked
+def ask(fields, n, q, score = 0.0)
+  return score if n > q # We're done
+
+  puts "Question %d of %d" % [n, q]
+
+  # Pick a question format
+  format = [1,2,3,4].sample(1).first
+
+  if format < 3
+    candidates = fields.sample(4).shuffle
+    correct = [1,2,3,4].sample(1).first
+
+    if format == 1
+      score += qformat1(candidates, correct)
+    else format == 2
+      score += qformat2(candidates, correct)
+    end
+  else
+    test_field = getFieldWithSubfields(fields)
+    candidates = test_field[1][:subfields].map{|k, v| [k, v]}.sample(4)
+    correct = (1..candidates.count).to_a.sample(1).first
+
+    if format == 3
+      score += qformat3(test_field, candidates, correct)
+    else
+      score += qformat4(test_field, candidates, correct)
+    end
+  end
+    
+#  puts "Score: %d out of %d (%d%%)" % [score, n, ((score / n) * 100).round]
+
+  puts "Score: %s" % formatScore(score, n)
+  puts ""
+  
+  return ask(fields, n+1, q, score)
+end
+
+options = {:q => 10}
+OptionParser.new do |opts|
+  opts.banner = "Usage: marcman [CODE] [options]"
+
+  opts.on("-q", "--questions=QUESTIONS",
+          "Number of questions for the quiz (Default: 10") do |q|
+    options[:q] = q.to_i
+  end
+end.parse!
+
+
+begin
+  puts "Your final score: %s" % formatScore(
+         ask(Marcman::CODES.map{|k, v| [k, v]},1, options[:q]),
+         options[:q])
+rescue StopTheQuiz
+  puts "Thanks for playing!"
+end
