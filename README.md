@@ -14,7 +14,7 @@ Install the gem:
 
 Run the program:
 
-    $ bundle
+    $ marcman
 
 ## Usage
 
