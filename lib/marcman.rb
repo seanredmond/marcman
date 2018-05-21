@@ -1,10 +1,24 @@
 # coding: utf-8
 require "marcman/constants"
+require "marcman/errors"
 require "marcman/fields"
 require "marcman/version"
 require "pp"
 
-module Marcman  
+module Marcman
+  def self.getFieldFromCode(code)
+    unless code =~ /[0-9Xx]{3}/
+      raise BadMarcFieldFormatError.new(
+              "Sorry, \"%s\" is not a correct MARC field code format."  % code)
+    end
+
+    code = code.upcase
+    if MARC[code].nil?
+      raise NoMarcFieldError.new("No MARC field with the code %s" % code)
+    end
+    return [code, MARC[code]]
+  end
+
   def self.formatRepeat(r, show)
     return "" unless show
 

@@ -9,6 +9,9 @@ options = {:browser => false,
            :repeat=>false,
            :subfields => false}
 
+# show help if there is no field argument
+ARGV << '-h' if ARGV.empty?
+
 OptionParser.new do |opts|
   opts.banner = "Usage: marcman [CODE] [options]"
 
@@ -31,40 +34,33 @@ OptionParser.new do |opts|
 
 end.parse!
 
-code = ARGV.first.upcase
-unless code =~ /[0-9X]{3}/
-  puts "I don't recognize \"%s\". Please enter a 3-character MARC field code." %
-       code
+begin
+  code, field = Marcman::getFieldFromCode(ARGV.first)
+
+  puts "%s: %s%s" % [code, field[:definition], Marcman::formatRepeat(field[:repeat], options[:repeat])]
+  if options[:indicators] and field[:indicators]
+    (1..2).each do |i|
+      puts Marcman::formatIndicators(code, i).join("\n")
+    end
+  end
+  
+  if options[:subfields] and field[:subfields]
+    puts "  Subfields:"
+    puts Marcman::formatSubfields(code, options[:repeat]).join("\n")
+  end
+  
+  if options[:browser]
+    if field[:docurl].nil?
+      Launchy.open(
+        "https://www.loc.gov/marc/bibliographic/bd%s.html" % code.downcase
+      )
+    else
+      Launchy.open(field[:docurl])
+    end
+  end
+rescue Marcman::BadMarcFieldFormatError => e
+  puts e
   exit 1
-end
-
-field = Marcman::MARC[code]
-
-if field.nil?
-  puts "No MARC field with the code %s" % code
-  exit 0
-end
-
-#desc, repeat = field
-
-puts "%s: %s%s" % [code, field[:definition], Marcman::formatRepeat(field[:repeat], options[:repeat])]
-if options[:indicators] and Marcman::MARC[code][:indicators]
-  (1..2).each do |i|
-    puts Marcman::formatIndicators(code, i).join("\n")
-  end
-end
-
-if options[:subfields] and Marcman::MARC[code][:subfields]
-  puts "  Subfields:"
-  puts Marcman::formatSubfields(code, options[:repeat]).join("\n")
-end
-
-if options[:browser]
-  if Marcman::MARC[code][:docurl].nil?
-    Launchy.open(
-      "https://www.loc.gov/marc/bibliographic/bd%s.html" % code.downcase
-    )
-  else
-    Launchy.open(Marcman::MARC[code][:docurl])
-  end
+rescue Marcman::NoMarcFieldError => e
+  puts e
 end
