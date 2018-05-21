@@ -55,7 +55,7 @@ Or to see the subfields use `-s`:
 If you want to know what is repeatable, use `-r` (and the flags can
 all be combined):
 
-    $ marcman 245 -s
+    $ marcman 245 -sr
     245: Title Statement (non-repeatable)
       Subfields:
         $a - Title (non-repeatable)
