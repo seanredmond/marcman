@@ -80,7 +80,7 @@ Should open https://www.loc.gov/marc/bibliographic/bd245.html
 
 ## Take the quiz
 
-Run `marcquiz` to test your knowledge of MARC in an interarctive quiz:
+Run `marcquiz` to test your knowledge of MARC in an interactive quiz:
 
     ~ marcquiz
     Question 1 of 10
