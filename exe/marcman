@@ -12,12 +12,12 @@ options = {:browser => false,
 OptionParser.new do |opts|
   opts.banner = "Usage: marcman [CODE] [options]"
 
-  opts.on("-b", "--[no-]browse", "Open in browser") do |b|
-    options[:browser] = b
-  end
-
   opts.on("-i", "--[no-]indicators", "Show indicator definitions") do |i|
     options[:indicators] = i
+  end
+
+  opts.on("-s", "--[no-]subfields", "Show subfield definitions") do |s|
+    options[:subfields] = s
   end
 
   opts.on("-r", "--[no-]repeatable",
@@ -25,8 +25,8 @@ OptionParser.new do |opts|
     options[:repeat] = r
   end
 
-  opts.on("-s", "--[no-]subfields", "Show subfield definitions") do |s|
-    options[:subfields] = s
+  opts.on("-b", "--[no-]browse", "Open in browser") do |b|
+    options[:browser] = b
   end
 
 end.parse!
