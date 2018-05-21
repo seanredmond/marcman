@@ -3,6 +3,10 @@ require "marcman/version"
 require "pp"
 
 module Marcman
+
+  # Constants for widely used subfield definitions. These are roughly in
+  # descending order of use
+  
   LINKAGE = {"$6"=>{:definition=>"Linkage", :repeat=>false}}
   FIELDLINK = {"$8"=>{:definition=>"Field link and sequence number", :repeat=>true}}
 
@@ -675,10 +679,9 @@ module Marcman
    :repeat=>false,
    :indicators=>[:undefined, :undefined],
    :subfields=>{
-     "$a"=>{:definition=>"Primary G0 character set (NR)", :repeat=>false},
-     "$b"=>{:definition=>"Primary G1 character set (NR)", :repeat=>false},
-     "$c"=>{:definition=>"Alternate G0 or G1 character set (R)",
-            :repeat=>true}},
+     "$a"=>{:definition=>"Primary G0 character set", :repeat=>false},
+     "$b"=>{:definition=>"Primary G1 character set", :repeat=>false},
+     "$c"=>{:definition=>"Alternate G0 or G1 character set"}},
    :linkage=>false,
    :fieldlink=>false,
    :group=>"01X-09X"},
@@ -4216,7 +4219,7 @@ module Marcman
   :group=>"841-88X",
   :docurl=>"https://www.loc.gov/marc/holdings/hd854.html"},
  "855"=>
- {:definition=>"855 - Captions and Pattern - Indexes",
+ {:definition=>"Captions and Pattern - Indexes",
   :repeat=>true,
   :indicators=>[:undefined, :undefined],
   :subfields=>{
