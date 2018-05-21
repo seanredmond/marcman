@@ -32,6 +32,11 @@ OptionParser.new do |opts|
     options[:browser] = b
   end
 
+  opts.on_tail("--version", "Show version") do
+    puts Marcman::VERSION
+    exit
+  end
+
 end.parse!
 
 begin
