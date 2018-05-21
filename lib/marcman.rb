@@ -4692,7 +4692,7 @@ module Marcman
   end
   
   def self.formatIndicators(code, ind)
-    label = ind == 1 ? "first" : "second"
+    label = ind == 1 ? "First" : "Second"
     indicator = CODES[code][:indicators][ind - 1]
     if indicator == :undefined
       return ["  %s indicator is undefined" % label]

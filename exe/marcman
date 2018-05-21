@@ -8,6 +8,7 @@ options = {:browser => false,
            :indicators => false,
            :repeat=>false,
            :subfields => false}
+
 OptionParser.new do |opts|
   opts.banner = "Usage: marcman [CODE] [options]"
 
@@ -15,11 +16,12 @@ OptionParser.new do |opts|
     options[:browser] = b
   end
 
-  opts.on("-i", "--[no-]indicators", "Show definitions of indicators") do |i|
+  opts.on("-i", "--[no-]indicators", "Show indicator definitions") do |i|
     options[:indicators] = i
   end
 
-  opts.on("-r", "--[no-]repeatable", "Show repeatability") do |r|
+  opts.on("-r", "--[no-]repeatable",
+          "Show repeatability of fields and subfields") do |r|
     options[:repeat] = r
   end
 
@@ -31,7 +33,7 @@ end.parse!
 
 code = ARGV.first.upcase
 unless code =~ /[0-9X]{3}/
-  puts "I don't recognize \"%s\". Please enter a 3-digit MARC field code." %
+  puts "I don't recognize \"%s\". Please enter a 3-character MARC field code." %
        code
   exit 1
 end
