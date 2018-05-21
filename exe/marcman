@@ -38,7 +38,7 @@ unless code =~ /[0-9X]{3}/
   exit 1
 end
 
-field = Marcman::CODES[code]
+field = Marcman::MARC[code]
 
 if field.nil?
   puts "No MARC field with the code %s" % code
@@ -48,23 +48,23 @@ end
 #desc, repeat = field
 
 puts "%s: %s%s" % [code, field[:definition], Marcman::formatRepeat(field[:repeat], options[:repeat])]
-if options[:indicators] and Marcman::CODES[code][:indicators]
+if options[:indicators] and Marcman::MARC[code][:indicators]
   (1..2).each do |i|
     puts Marcman::formatIndicators(code, i).join("\n")
   end
 end
 
-if options[:subfields] and Marcman::CODES[code][:subfields]
+if options[:subfields] and Marcman::MARC[code][:subfields]
   puts "  Subfields:"
   puts Marcman::formatSubfields(code, options[:repeat]).join("\n")
 end
 
 if options[:browser]
-  if Marcman::CODES[code][:docurl].nil?
+  if Marcman::MARC[code][:docurl].nil?
     Launchy.open(
       "https://www.loc.gov/marc/bibliographic/bd%s.html" % code.downcase
     )
   else
-    Launchy.open(Marcman::CODES[code][:docurl])
+    Launchy.open(Marcman::MARC[code][:docurl])
   end
 end
